@@ -14,7 +14,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Kubernetes初探 - gunxiaoshi | Blog
+          Kubernetes之初探 - gunxiaoshi | Blog
         
     </title>
 
@@ -89,7 +89,7 @@
                               <a class="tag" href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
                             
                         </div>
-                        <h1>Kubernetes初探</h1>
+                        <h1>Kubernetes之初探</h1>
                         <h2 class="subheading">K8s的工作原理</h2>
                         <span class="meta">
                             Posted by gunxiaoshi on
@@ -210,7 +210,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="K8s概述"><a href="#K8s概述" class="headerlink" title="K8s概述"></a>K8s概述</h1><p>我清晰地记得曾经读到过的一篇博文，上面是这样写的，“云端教父AWS云端架构策略副总裁Adrian Cockcroft曾指出，两者虽然都是运用容器技术，但最大的差异是，Docker是要解决应用程序开发（Developing）问题，而Kubernetes是要解决更上层的应用程序运维问题（Operation）。开发问题是早期的痛点，但随着企业越来越依赖容器技术，内部应用越来越多是云原生应用时，运维会是企业IT的新痛点。”大佬的一番话，明确地指出K8S的生存土壤！</p>
+                <h1 id="K8s概述"><a href="#K8s概述" class="headerlink" title="K8s概述"></a>K8s概述</h1><p>我清晰地记得曾经读到过的一篇博文，上面是这样写的，<br>“云端教父AWS云端架构策略副总裁Adrian Cockcroft曾指出，两者虽然都是运用容器技术，但最大的差异是，Docker是要解决应用程序开发（Developing）问题，而Kubernetes是要解决更上层的应用程序运维问题（Operation）。开发问题是早期的痛点，但随着企业越来越依赖容器技术，内部应用越来越多是云原生应用时，运维会是企业IT的新痛点。”大佬的一番话，明确地指出K8S的生存土壤！<br><a id="more"></a></p>
 <p>学习一项技术，除了需要明确这项技术的应用场景和发展方向之外，最主要的是理解她的工作原理。</p>
 <h1 id="K8s的工作原理"><a href="#K8s的工作原理" class="headerlink" title="K8s的工作原理"></a>K8s的工作原理</h1><h2 id="1-什么是K8s"><a href="#1-什么是K8s" class="headerlink" title="1. 什么是K8s"></a>1. 什么是K8s</h2><p>Kubernetes（k8s）是跨主机集群的自动部署、扩展以及运行应用程序容器的开源平台，这些操作包括部署，调度和节点集群间扩展。大二下学期我曽用过Docker容器技术部署容器，经历过compose的变种，对于应用版本之间的兼容性问题深恶痛绝。我们可以将Docker看成Kubernetes内部使用的低级别组件。Kubernetes不仅仅支持Docker，还支持Rocket（没有接触过），这是另一种容器技术。</p>
 <p>wikipedia给出的定义：K8s是用于自动部署、扩展和管理容器化（containerized）应用程序的开源系统。Google设计并捐赠给Cloud Native Computing Foundation（今属Linux基金会）来使用的。它支持一系列容器工具, 包括Docker等。CNCF于2017年宣布首批Kubernetes认证服务提供商（KCSPs），包含IBM、华为、MIRANTIS、inwinSTACK迎栈科技等[5]服务商。</p>
