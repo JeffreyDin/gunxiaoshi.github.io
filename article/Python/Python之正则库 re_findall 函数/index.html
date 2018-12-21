@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Hello World - gunxiaoshi | Blog
+          Python之re模块findall函数用法 - gunxiaoshi | Blog
         
     </title>
 
-    <link rel="canonical" href="http://gunxiaoshi.me/article/hello-world/">
+    <link rel="canonical" href="http://gunxiaoshi.me/article/Python/Python之正则库 re_findall 函数/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,7 +69,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/article_header/article_bg.jpg')
+            background-image: url('/img/article_header/article (4).png')
             /*post*/
         
     }
@@ -86,14 +86,18 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#test" title="test">test</a>
+                              <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                            
+                              <a class="tag" href="/tags/#正则表达式" title="正则表达式">正则表达式</a>
+                            
+                              <a class="tag" href="/tags/#函数" title="函数">函数</a>
                             
                         </div>
-                        <h1>Hello World</h1>
+                        <h1>Python之re模块findall函数用法</h1>
                         <h2 class="subheading"></h2>
                         <span class="meta">
                             Posted by gunxiaoshi on
-                            2017-05-26
+                            2018-12-13
                         </span>
                     </div>
                 
@@ -210,15 +214,213 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <h1 id="Python-re-模块-findall-函数用法简述"><a href="#Python-re-模块-findall-函数用法简述" class="headerlink" title="Python re 模块 findall 函数用法简述"></a>Python re 模块 findall 函数用法简述</h1><p><em><strong>本文档介绍了正则表达式元字符 和 re模块 findall 函数用法。</strong></em></p>
+<h1 id="正则表达式元字符"><a href="#正则表达式元字符" class="headerlink" title="正则表达式元字符"></a>正则表达式元字符</h1><p><em><strong>给予正则表达式强大的功能和灵活性。</strong></em></p>
+<table>
+<thead>
+<tr>
+<th>表 示 法</th>
+<th>描述</th>
+<th>正则表达式示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>符号</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>literal</td>
+<td>匹配文本字符串的字面值literal</td>
+<td>foo</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配任何字符（除了\n 之外）</td>
+<td>b.b</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配字符串起始部分</td>
+<td>^Dear</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配字符串终止部分</td>
+<td>/bin/*sh$</td>
+</tr>
+<tr>
+<td>*</td>
+<td>匹配 0 次或者多次前面出现的正则表达式</td>
+<td>[A-Za-z0-9]*</td>
+</tr>
+<tr>
+<td>+</td>
+<td>匹配 1 次或者多次前面出现的正则表达式</td>
+<td>[a-z]+.com</td>
+</tr>
+<tr>
+<td>?</td>
+<td>匹配 0 次或者 1 次前面出现的正则表达式</td>
+<td>goo?</td>
+</tr>
+<tr>
+<td>{N}</td>
+<td>匹配 N 次前面出现的正则表达式</td>
+<td>[0-9]{3}</td>
+</tr>
+<tr>
+<td>{M,N}</td>
+<td>匹配 M～N 次前面出现的正则表达式</td>
+<td>[0-9]{5,9}</td>
+</tr>
+<tr>
+<td>[…]</td>
+<td>匹配来自字符集的任意单一字符</td>
+<td>[aeiou]</td>
+</tr>
+<tr>
+<td>[..x−y..]</td>
+<td>匹配 x～y 范围中的任意单一字符</td>
+<td>[0-9], [A-Za-z]</td>
+</tr>
+<tr>
+<td>[^…]</td>
+<td>不匹配此字符集中出现的任何一个字符，包括某一范围的字符（ 如果在此字符集中出现）</td>
+<td>[^aeiou], [^A-Za-z0-9]</td>
+</tr>
+<tr>
+<td>(…)</td>
+<td>匹配封闭的正则表达式，然后另存为子组</td>
+<td>([0-9]{3})?</td>
+</tr>
+<tr>
+<td>特殊字符</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配任何十进制数字，与[0-9]一致（ \D 与\d 相反，不匹配任何非数值型的数字）</td>
+<td>data\d+.txt</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配任何字母数字字符，与[A-Za-z0-9_]相同（ \W 与之相反）</td>
+<td>[A-Za-z_]\w+</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配任何空格字符，与[\n\t\r\v\f]相同（ \S 与之相反）</td>
+<td>of\sthe</td>
+</tr>
+<tr>
+<td>\b</td>
+<td>匹配任何单词边界（ \B 与之相反）</td>
+<td>\bThe\b</td>
+</tr>
+<tr>
+<td>\N</td>
+<td>匹配已保存的子组 N（参见上面的(…))</td>
+<td>price: \16</td>
+</tr>
+<tr>
+<td>\c</td>
+<td>逐字匹配任何特殊字符 c（即，仅按照字面意义匹配，不匹配特殊含义）</td>
+<td>\., \\, \*</td>
+</tr>
+<tr>
+<td>\A(\Z)</td>
+<td>匹配字符串的起始（结束）（另见上面介绍的^和$）</td>
+<td>\ADear</td>
+</tr>
+<tr>
+<td>扩展表示法</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(?iLmsux)</td>
+<td>在正则表达式中嵌入一个或者多个特殊“标记” 参数（或者通过函数/方法）</td>
+<td>(?x),(? im)</td>
+</tr>
+<tr>
+<td>(?:…)</td>
+<td>表示一个匹配不用保存的分组</td>
+<td>(?:\w+.)*</td>
+</tr>
+<tr>
+<td>(?P\<name>…)</name></td>
+<td>像一个仅由 name 标识而不是数字 ID 标识的正则分组匹配</td>
+<td>(?P\<data>)</data></td>
+</tr>
+<tr>
+<td>(?P=name)</td>
+<td>在同一字符串中匹配由(?P&lt;name)分组的之前文本</td>
+<td>(?P=data)</td>
+</tr>
+<tr>
+<td>(?#…)</td>
+<td>表示注释，所有内容都被忽略</td>
+<td>(?#comment)</td>
+</tr>
+<tr>
+<td>(?=…)</td>
+<td>匹配条件是如果…出现在之后的位置，而不使用输入字符串；称作正向前视断言</td>
+<td>(?=.com)</td>
+</tr>
+<tr>
+<td>(?!…)</td>
+<td>匹配条件是如果…不出现在之后的位置，而不使用输入字符串；称作负向前视断言</td>
+<td>(?!.net)</td>
+</tr>
+<tr>
+<td>(?&lt;=…)</td>
+<td>匹配条件是如果…出现在之前的位置，而不使用输入字符串；称作正向后视断言</td>
+<td>(?&lt;=800-)</td>
+</tr>
+<tr>
+<td>(?&lt;!…)</td>
+<td>匹配条件是如果…不出现在之前的位置，而不使用输入字符串；称作负向后视断言</td>
+<td>(?&lt;!192\.168\.)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="使用到的特殊字符"><a href="#使用到的特殊字符" class="headerlink" title="使用到的特殊字符"></a>使用到的特殊字符</h2><table>
+<thead>
+<tr>
+<th>表 示 法</th>
+<th>描述</th>
+<th>正则表达式示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>特殊字符</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配任何字母数字字符，与[A-Za-z0-9_]相同（ \W 与之相反）</td>
+<td>[A-Za-z_]\w+</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配任何空格字符，与[\n\t\r\v\f]相同（ \S 与之相反）</td>
+<td>of\sthe</td>
+</tr>
+</tbody>
+</table>
+<h1 id="findall函数"><a href="#findall函数" class="headerlink" title="findall函数"></a>findall函数</h1><p>findall函数返回的总是正则表达式在字符串中所有匹配结果的列表，此处主要讨论列表中“结果”的展现方式，即findall中返回列表中每个元素包含的信息。</p>
+<h2 id="1-findall"><a href="#1-findall" class="headerlink" title="1. findall"></a>1. findall</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># findall</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">s = <span class="string">"456123sad 789re3dfheasdf a123fas 123awef q3segd a123dsas"</span></span><br><span class="line">re0subject1 = re.compile(<span class="string">'\w+\s+'</span>)</span><br><span class="line">print(re0subject1.findall(s))</span><br><span class="line">&gt; 执行结果：</span><br><span class="line">[<span class="string">'456123sad '</span>, <span class="string">'789re3dfheasdf '</span>, <span class="string">'a123fas '</span>, <span class="string">'123awef '</span>, <span class="string">'q3segd '</span>]</span><br></pre></td></tr></table></figure>
+<p>当给出的正则表达式中不带括号时，列表的元素为字符串，此字符串为整个正则表达式匹配的内容。<br>注意：此处出现的匹配是\w+\s+，最后一个字符串没有空格字符，所以没有匹配。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># findall</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">s = <span class="string">"456123sad  789re3dfheasdf  a123fas  123awef  q3segd  a123dsas "</span></span><br><span class="line">re0subject2 = re.compile(<span class="string">'\w+\s+'</span>)</span><br><span class="line">print(re0subject2.findall(s))</span><br><span class="line">&gt; 执行结果：</span><br><span class="line">[<span class="string">'456123sad  '</span>, <span class="string">'789re3dfheasdf  '</span>, <span class="string">'a123fas  '</span>, <span class="string">'123awef  '</span>, <span class="string">'q3segd  '</span>, <span class="string">'a123dsas '</span>]</span><br></pre></td></tr></table></figure></p>
+<p>当给出的正则表达式中不带括号时，列表的元素为字符串，此字符串为整个正则表达式匹配的内容。</p>
+<h2 id="2-findall"><a href="#2-findall" class="headerlink" title="2. findall"></a>2. findall</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">s = <span class="string">"456123sad  789111re3dfheasdf  a123fas  123awef  q3segd  a123dsas "</span></span><br><span class="line"><span class="comment"># s = "adfad asdfasdf asdfas asdfawef asd adsfas "</span></span><br><span class="line">re0subject3 = re.compile(<span class="string">'(\w+)\s+\w+'</span>)</span><br><span class="line">print(re0subject3.findall(s))</span><br><span class="line">&gt; 执行结果：</span><br><span class="line">[<span class="string">'456123sad'</span>, <span class="string">'a123fas'</span>, <span class="string">'q3segd'</span>]</span><br></pre></td></tr></table></figure>
+<p>当给出的正则表达式中带有一个括号时，列表的元素为字符串，此字符串的内容与括号中的正则表达式相对应（不是整个正则表达式的匹配内容）。</p>
+<h2 id="3-findall"><a href="#3-findall" class="headerlink" title="3. findall"></a>3. findall</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">s = <span class="string">"456123sad  789111re3dfheasdf  a123fas  123awef  q3segd  a123dsas "</span></span><br><span class="line"><span class="comment"># s = "adfad asdfasdf asdfas asdfawef asd adsfas "</span></span><br><span class="line">re0subject3 = re.compile(<span class="string">'((\w+)\s+\w+)'</span>)</span><br><span class="line">print(re0subject3.findall(s))</span><br><span class="line">&gt; 执行结果：</span><br><span class="line">[(<span class="string">'456123sad  789111re3dfheasdf'</span>, <span class="string">'456123sad'</span>), (<span class="string">'a123fas  123awef'</span>, <span class="string">'a123fas'</span>), (<span class="string">'q3segd  a123dsas'</span>, <span class="string">'q3segd'</span>)]</span><br></pre></td></tr></table></figure>
+<p>当给出的正则表达式中带有多个括号时，列表的元素为多个字符串组成的元组，元组中字符串个数与括号对数相同，字符串内容与每个括号内的正则表达式相对应，并且排放顺序是按括号出现的顺序。</p>
 
                 
 
@@ -227,9 +429,13 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Python/Python之机器学习/" data-toggle="tooltip" data-placement="top" title="Python之机器学习一">&larr; Previous Post</a>
+                            <a href="/article/VPN/VPN之beginning/" data-toggle="tooltip" data-placement="top" title="VPN之beginning">&larr; Previous Post</a>
                         </li>
                     
+                    
+                        <li class="next">
+                            <a href="/article/VPN/VPN之beginning2/" data-toggle="tooltip" data-placement="top" title="VPN之beginning2">Next Post &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -257,6 +463,24 @@
             <!-- Tabe of Content -->
             <!-- Table of Contents -->
 
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Python-re-模块-findall-函数用法简述"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Python re 模块 findall 函数用法简述</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#正则表达式元字符"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">正则表达式元字符</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#使用到的特殊字符"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">使用到的特殊字符</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#findall函数"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">findall函数</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-findall"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">1. findall</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-findall"><span class="toc-nav-number">3.2.</span> <span class="toc-nav-text">2. findall</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-findall"><span class="toc-nav-number">3.3.</span> <span class="toc-nav-text">3. findall</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
                 
             <!-- Sidebar Container -->
             <div class="
@@ -271,7 +495,11 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#test" title="test">test</a>
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                          <a class="tag" href="/tags/#正则表达式" title="正则表达式">正则表达式</a>
+                        
+                          <a class="tag" href="/tags/#函数" title="函数">函数</a>
                         
                     </div>
                 </section>
