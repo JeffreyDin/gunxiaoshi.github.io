@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Every failure is leading towards success.">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          AWS之Qwiklab4 - gunxiaoshi | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://gunxiaoshi.me/article/AWS/AWS之Qwiklab4/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article (5).png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                            
+                        </div>
+                        <h1>AWS之Qwiklab4</h1>
+                        <h2 class="subheading">实验-Amazon DynamoDB, Amazon Redshift, Elasticsearch Service</h2>
+                        <span class="meta">
+                            Posted by gunxiaoshi on
+                            2018-09-22
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">gunxiaoshi</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Introduction-to-Amazon-DynamoDB"><a href="#Introduction-to-Amazon-DynamoDB" class="headerlink" title="Introduction to Amazon DynamoDB"></a>Introduction to Amazon DynamoDB</h1><p><strong><a href="https://run.qwiklabs.com/focuses/271?catalog_rank=%7B%22rank%22%3A9%2C%22num_filters%22%3A2%2C%22has_search%22%3Atrue%7D&amp;parent=catalog" target="_blank" rel="noopener">Amazon DynamoDB简介</a></strong></p>
+<h2 id="知识梳理"><a href="#知识梳理" class="headerlink" title="知识梳理"></a>知识梳理</h2><h3 id="1-定义与作用"><a href="#1-定义与作用" class="headerlink" title="1. 定义与作用"></a>1. 定义与作用</h3><p>首先，Amazon DynamoDB是非关系型数据库（NoSQL），NoSQL 是一个术语，用于描述高度可用的、可扩展的并且已针对高性能进行优化的非关系数据库系统。有别于关系模型，NoSQL 数据库 (如 DynamoDB) 使用替代模型进行数据管理，例如键-值对或文档存储。</p>
+<h3 id="2-工作原理"><a href="#2-工作原理" class="headerlink" title="2. 工作原理"></a>2. 工作原理</h3><p><a href="https://docs.aws.amazon.com/zh_cn/amazondynamodb/latest/developerguide/HowItWorks.html" target="_blank" rel="noopener">https://docs.aws.amazon.com/zh_cn/amazondynamodb/latest/developerguide/HowItWorks.html</a></p>
+<h3 id="3-Python和Amazon-DynamoDB"><a href="#3-Python和Amazon-DynamoDB" class="headerlink" title="3. Python和Amazon DynamoDB"></a>3. Python和Amazon DynamoDB</h3><p><a href="https://docs.aws.amazon.com/zh_cn/amazondynamodb/latest/developerguide/GettingStarted.Python.html" target="_blank" rel="noopener">https://docs.aws.amazon.com/zh_cn/amazondynamodb/latest/developerguide/GettingStarted.Python.html</a><br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">创建表Movies</span><br><span class="line"><span class="keyword">from</span> __future__ <span class="keyword">import</span> print_function <span class="comment"># Python 2/3 compatibility</span></span><br><span class="line"><span class="keyword">import</span> boto3</span><br><span class="line"> </span><br><span class="line">dynamodb = boto3.resource(<span class="string">'dynamodb'</span>, region_name=<span class="string">'us-west-2'</span>, endpoint_url=<span class="string">"http://localhost:8000"</span>)</span><br><span class="line"> </span><br><span class="line">table = dynamodb.create_table(</span><br><span class="line">    TableName=<span class="string">'Movies'</span>,</span><br><span class="line">    KeySchema=[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">'AttributeName'</span>: <span class="string">'year'</span>,</span><br><span class="line">            <span class="string">'KeyType'</span>: <span class="string">'HASH'</span>  <span class="comment">#Partition key</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">'AttributeName'</span>: <span class="string">'title'</span>,</span><br><span class="line">            <span class="string">'KeyType'</span>: <span class="string">'RANGE'</span>  <span class="comment">#Sort key</span></span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    AttributeDefinitions=[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">'AttributeName'</span>: <span class="string">'year'</span>,</span><br><span class="line">            <span class="string">'AttributeType'</span>: <span class="string">'N'</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="string">'AttributeName'</span>: <span class="string">'title'</span>,</span><br><span class="line">            <span class="string">'AttributeType'</span>: <span class="string">'S'</span></span><br><span class="line">        &#125;,</span><br><span class="line"> </span><br><span class="line">    ],</span><br><span class="line">    ProvisionedThroughput=&#123;</span><br><span class="line">        <span class="string">'ReadCapacityUnits'</span>: <span class="number">10</span>,</span><br><span class="line">        <span class="string">'WriteCapacityUnits'</span>: <span class="number">10</span></span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"> </span><br><span class="line">print(<span class="string">"Table status:"</span>, table.table_status)</span><br></pre></td></tr></table></figure></p>
+<h1 id="Introduction-to-Amazon-Redshift"><a href="#Introduction-to-Amazon-Redshift" class="headerlink" title="Introduction to Amazon Redshift"></a>Introduction to Amazon Redshift</h1><p><strong><a href="https://run.qwiklabs.com/focuses/276?catalog_rank=%7B%22rank%22%3A13%2C%22num_filters%22%3A2%2C%22has_search%22%3Atrue%7D&amp;parent=catalog" target="_blank" rel="noopener">Amazon Redshift简介</a></strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">Users表</span><br><span class="line">CREATE TABLE users (</span><br><span class="line">  userid INTEGER NOT NULL,</span><br><span class="line">  username CHAR(<span class="number">8</span>),</span><br><span class="line">  firstname VARCHAR(<span class="number">30</span>),</span><br><span class="line">  lastname VARCHAR(<span class="number">30</span>),</span><br><span class="line">  city VARCHAR(<span class="number">30</span>),</span><br><span class="line">  state CHAR(<span class="number">2</span>),</span><br><span class="line">  email VARCHAR(<span class="number">100</span>),</span><br><span class="line">  phone CHAR(<span class="number">14</span>),</span><br><span class="line">  likesports BOOLEAN,</span><br><span class="line">  liketheatre BOOLEAN,</span><br><span class="line">  likeconcerts BOOLEAN,</span><br><span class="line">  likejazz BOOLEAN,</span><br><span class="line">  likeclassical BOOLEAN,</span><br><span class="line">  likeopera BOOLEAN,</span><br><span class="line">  likerock BOOLEAN,</span><br><span class="line">  likevegas BOOLEAN,</span><br><span class="line">  likebroadway BOOLEAN,</span><br><span class="line">  likemusicals BOOLEAN</span><br><span class="line">);</span><br><span class="line">数据查询</span><br><span class="line">查询表的行数</span><br><span class="line">SELECT COUNT(*) FROM users;</span><br><span class="line">查询俄亥俄州（OH）的用户喜欢体育不喜欢歌剧的情况，列表按其名字排序</span><br><span class="line">SELECT userid, firstname, lastname, city, state</span><br><span class="line">FROM users</span><br><span class="line">WHERE likesports AND NOT likeopera AND state = <span class="string">'OH'</span></span><br><span class="line">ORDER BY firstname;</span><br><span class="line">查询显示热爱Jazz的用户所居住的十大城市</span><br><span class="line">SELECT</span><br><span class="line">  city,</span><br><span class="line">  COUNT(*) AS count</span><br><span class="line">FROM users</span><br><span class="line">WHERE likejazz</span><br><span class="line">GROUP BY city</span><br><span class="line">ORDER BY count DESC</span><br><span class="line">LIMIT <span class="number">10</span>;</span><br></pre></td></tr></table></figure></p>
+<h1 id="Introduction-to-Amazon-Elasticsearch-Service"><a href="#Introduction-to-Amazon-Elasticsearch-Service" class="headerlink" title="Introduction to Amazon Elasticsearch Service"></a>Introduction to Amazon Elasticsearch Service</h1><p><strong><a href="https://run.qwiklabs.com/my_learning/labs" target="_blank" rel="noopener">Amazon Elasticsearch Service简介</a></strong></p>
+<h2 id="知识梳理-1"><a href="#知识梳理-1" class="headerlink" title="知识梳理"></a>知识梳理</h2><h3 id="1-定义与作用-1"><a href="#1-定义与作用-1" class="headerlink" title="1. 定义与作用"></a>1. 定义与作用</h3><p> Amazon Elasticsearch Service (Amazon ES) 是一种托管服务, 可以轻松地在AWS云中部署，操作和扩展Elasticsearch。Elasticsearch是一种流行的开源搜索和分析引擎，用于日志分析，实时应用程序监控，点击流分析和文本搜索等用例。<br>您可以在几分钟内从AWS管理控制台设置和配置AmazonElasticsearchService<br>Cluster.<br>Amazon ES为您的群集配置了所有资源并启动它。AmazonES自动检测并替换故障节点，从而减少与自我管理基础架构相关的开销。设置AmazonES群集没有前期成本，您只需为您使用的服务资源付费。<br>AmazonES提供托管服务的以下好处：</p>
+<ul>
+<li>通过API进行简单的集群扩展</li>
+<li>自愈簇</li>
+<li>按需提供高可用性</li>
+<li>用于数据持久性的自动集群快照</li>
+<li>安全</li>
+<li>集群监控</li>
+</ul>
+<p>AmazonES包含与Kibana的内置集成，并支持与Logstash的集成。Logstash是一个开源数据管道，可帮助您处理日志和其他事件数据，并将其加载到Elasticsearch中。Kibana是一个开源分析和可视化平台，可帮助您更好地了解Elasticsearch中的数据。</p>
+<h3 id="2-Amazon-Elasticsearch-Service-的组件"><a href="#2-Amazon-Elasticsearch-Service-的组件" class="headerlink" title="2. Amazon Elasticsearch Service 的组件"></a>2. Amazon Elasticsearch Service 的组件</h3><p>AmazonES包含以下组件：<br>域：AmazonES域包含Elasticsearch Service Cluster(硬件和软件)以及提供负载平衡，安全性，监控等的其他硬件和软件。该域由AmazonES的服务说点公开，其名称必须符合以下条件：</p>
+<ul>
+<li>唯一标识AWS账户中的域</li>
+<li>以字母或数字开头</li>
+<li>包含至少三个字符，但不超过28个字符</li>
+<li>仅包含小写字符az，数字0-9和连字符（-)</li>
+</ul>
+<p>群集：运行Elasticsearch Service所需的一个或多个数据节点，可选的专用主节占和存储的集合。<br>节点：Elasticsearch Service集群中的单个实例，能够识别和处理或转发消息到其他节点。<br>存储：AmazonES支持两种不同的存储类型：实例存储或弹性块存储（EBS），可以是通用（SSD），配置IOPS（SSD）或磁性。</p>
+<h3 id="3-相关服务"><a href="#3-相关服务" class="headerlink" title="3. 相关服务"></a>3. 相关服务</h3><p> Amazon ES通常与以下服务起使用：</p>
+<h4 id="AWS-Cloud-Trail"><a href="#AWS-Cloud-Trail" class="headerlink" title="AWS Cloud Trail"></a>AWS Cloud Trail</h4><p>使用AWS CloudTrail求取您帐户的Amazon ES API调用和相关事件的历史记录。CloudTrail是一种Web服务，可记录来自您帐户的API调用，并将生成的日志文件传递到您的Amazon S3存储桶。您还可以使用CloudTrail限踪对AWS资源所做的更改。</p>
+<h4 id="Amazon-CloudWatch"><a href="#Amazon-CloudWatch" class="headerlink" title="Amazon CloudWatch"></a>Amazon CloudWatch</h4><p>Elasticsearch Service域会自动将指标发送到Amazon CloudWatch，以便您可以收集和分析性能统计信息。您可以使用AWS CLL或AWS开发工具向监控这些指标。您还可以轻松地将CloudWatchLogs日志组订阅到Amazon ES域，以将该日志组中的数据加载到AmazonES中。</p>
+<h4 id="Amazon-Kinesis"><a href="#Amazon-Kinesis" class="headerlink" title="Amazon Kinesis"></a>Amazon Kinesis</h4><p>Amazon Kinesis是一种托管服务，可以弹性扩展，实现大规模流数据的实时处理。AmazonES提供Lambda示例代码以与Kinesis集成。</p>
+<h4 id="Amazon-S3"><a href="#Amazon-S3" class="headerlink" title="Amazon S3"></a>Amazon S3</h4><p>Amazon Simple Storage Service (Amazon S3) 是Internet的存储. 您可以随时使用AmazonS3在Web上的任何位置存储和检索任意数量的数据。<br>Amazon ES提供Lambda示例代码以与S3集成。</p>
+<h4 id="AWS身份和访问管理（IAM）"><a href="#AWS身份和访问管理（IAM）" class="headerlink" title="AWS身份和访问管理（IAM）"></a>AWS身份和访问管理（IAM）</h4><p>AWS身份和访问管理（IAM）是一种Web服务，可用于管理AWS中的用户和用户权限。使用IAM为您的Amazon ES域创建基于用户或基于IP的访问策略。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">域访问策略-允许对域进行公开访问:</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"Version"</span>: <span class="string">"2012-10-17"</span>,</span><br><span class="line">  <span class="attr">"Statement"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"Effect"</span>: <span class="string">"Allow"</span>,</span><br><span class="line">      <span class="attr">"Principal"</span>: &#123;</span><br><span class="line">        <span class="attr">"AWS"</span>: [</span><br><span class="line">          <span class="string">"*"</span></span><br><span class="line">        ]</span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"Action"</span>: [</span><br><span class="line">        <span class="string">"es:*"</span></span><br><span class="line">      ],</span><br><span class="line">      <span class="attr">"Resource"</span>: <span class="string">"arn:aws:es:us-west-2:563924657756:domain/mydomain/*"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/img/article/监控部分.png" alt="监控部分"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/VPN/VPN之beginning2/" data-toggle="tooltip" data-placement="top" title="VPN之beginning2">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/AWS/AWS之Qwiklab3/" data-toggle="tooltip" data-placement="top" title="AWS之Qwiklab3">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Introduction-to-Amazon-DynamoDB"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Introduction to Amazon DynamoDB</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#知识梳理"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">知识梳理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-定义与作用"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">1. 定义与作用</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-工作原理"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">2. 工作原理</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-Python和Amazon-DynamoDB"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">3. Python和Amazon DynamoDB</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Introduction-to-Amazon-Redshift"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Introduction to Amazon Redshift</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Introduction-to-Amazon-Elasticsearch-Service"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Introduction to Amazon Elasticsearch Service</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#知识梳理-1"><span class="toc-nav-number">3.1.</span> <span class="toc-nav-text">知识梳理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-定义与作用-1"><span class="toc-nav-number">3.1.1.</span> <span class="toc-nav-text">1. 定义与作用</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-Amazon-Elasticsearch-Service-的组件"><span class="toc-nav-number">3.1.2.</span> <span class="toc-nav-text">2. Amazon Elasticsearch Service 的组件</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-相关服务"><span class="toc-nav-number">3.1.3.</span> <span class="toc-nav-text">3. 相关服务</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#AWS-Cloud-Trail"><span class="toc-nav-number">3.1.3.1.</span> <span class="toc-nav-text">AWS Cloud Trail</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Amazon-CloudWatch"><span class="toc-nav-number">3.1.3.2.</span> <span class="toc-nav-text">Amazon CloudWatch</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Amazon-Kinesis"><span class="toc-nav-number">3.1.3.3.</span> <span class="toc-nav-text">Amazon Kinesis</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Amazon-S3"><span class="toc-nav-number">3.1.3.4.</span> <span class="toc-nav-text">Amazon S3</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#AWS身份和访问管理（IAM）"><span class="toc-nav-number">3.1.3.5.</span> <span class="toc-nav-text">AWS身份和访问管理（IAM）</span></a></li></ol></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://docs.amazonaws.cn/index.html#lang/zh_cn" target="_blank">AWS</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/gunxiaoshi/" target="_blank">博客园</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/abe128c859a6" target="_blank">简书</a></li>
+                    
+                        <li><a href="" target="_blank">DockOne</a></li>
+                    
+                        <li><a href="" target="_blank">阿里云栖社区 </a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; gunxiaoshi 2018 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    change by <a href="http://www.gunxiaoshi.me">gunxiaoshi</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://gunxiaoshi.me/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://gunxiaoshi.me/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

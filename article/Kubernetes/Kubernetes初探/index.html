@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Every failure is leading towards success.">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Kubernetes初探 - gunxiaoshi | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://gunxiaoshi.me/article/Kubernetes/Kubernetes初探/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article (6).png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+                            
+                        </div>
+                        <h1>Kubernetes初探</h1>
+                        <h2 class="subheading">K8s的工作原理</h2>
+                        <span class="meta">
+                            Posted by gunxiaoshi on
+                            2018-09-18
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">gunxiaoshi</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="K8s概述"><a href="#K8s概述" class="headerlink" title="K8s概述"></a>K8s概述</h1><p>我清晰地记得曾经读到过的一篇博文，上面是这样写的，“云端教父AWS云端架构策略副总裁Adrian Cockcroft曾指出，两者虽然都是运用容器技术，但最大的差异是，Docker是要解决应用程序开发（Developing）问题，而Kubernetes是要解决更上层的应用程序运维问题（Operation）。开发问题是早期的痛点，但随着企业越来越依赖容器技术，内部应用越来越多是云原生应用时，运维会是企业IT的新痛点。”大佬的一番话，明确地指出K8S的生存土壤！</p>
+<p>学习一项技术，除了需要明确这项技术的应用场景和发展方向之外，最主要的是理解她的工作原理。</p>
+<h1 id="K8s的工作原理"><a href="#K8s的工作原理" class="headerlink" title="K8s的工作原理"></a>K8s的工作原理</h1><h2 id="1-什么是K8s"><a href="#1-什么是K8s" class="headerlink" title="1. 什么是K8s"></a>1. 什么是K8s</h2><p>Kubernetes（k8s）是跨主机集群的自动部署、扩展以及运行应用程序容器的开源平台，这些操作包括部署，调度和节点集群间扩展。大二下学期我曽用过Docker容器技术部署容器，经历过compose的变种，对于应用版本之间的兼容性问题深恶痛绝。我们可以将Docker看成Kubernetes内部使用的低级别组件。Kubernetes不仅仅支持Docker，还支持Rocket（没有接触过），这是另一种容器技术。</p>
+<p>wikipedia给出的定义：K8s是用于自动部署、扩展和管理容器化（containerized）应用程序的开源系统。Google设计并捐赠给Cloud Native Computing Foundation（今属Linux基金会）来使用的。它支持一系列容器工具, 包括Docker等。CNCF于2017年宣布首批Kubernetes认证服务提供商（KCSPs），包含IBM、华为、MIRANTIS、inwinSTACK迎栈科技等[5]服务商。</p>
+<p>在《Kubernetes权威指南（第二版）》中给出的定义：她是一个全新的基于容器技术的分布式架构领先方案，她提供了强大的自动化机制，系统后期的运维难度和运维成本大幅度降低。她是Google的大闺女<a href="http://dockone.io/article/726" target="_blank" rel="noopener">Borg</a>的开源版本。使用K8s提供的解决方案，可以节省大概30%的开发成本，可以将精力更加集中于业务本身。</p>
+<h2 id="2-用法"><a href="#2-用法" class="headerlink" title="2. 用法"></a>2. 用法</h2><p>使用Kubernetes可以：</p>
+<ul>
+<li>自动化容器的部署和复制</li>
+<li>随时扩展或收缩容器规模</li>
+<li>将容器组织成组，并且提供容器间的负载均衡</li>
+<li>很容易地升级应用程序容器的新版本</li>
+<li>提供容器弹性，如果容器失效就替换它，等等…</li>
+</ul>
+<h2 id="3-核心概念"><a href="#3-核心概念" class="headerlink" title="3. 核心概念"></a>3. 核心概念</h2><h3 id="1-集群"><a href="#1-集群" class="headerlink" title="1) 集群"></a>1) 集群</h3><p>在集群管理方面，K8s将集群中的机器划分为一个Master节点和一群工作节点Node。Master节点上运行着集群管理相关的一组进程kube-apiserver、kube-controller-manager和kube-scheduler。这些进程自动化实现了整个集群的资源管理、Pod调度、弹性伸缩、安全控制、系统监控和纠错等管理功能。<br><img src="/img/article/K8s.png" alt="K8s"><br>上图可以看到如下组件，使用特别的图标表示Service和Label：</p>
+<ul>
+<li>Kubernetes Master（Kubernetes主节点）</li>
+<li>Node（节点）</li>
+<li>Pod</li>
+<li>Container（容器）</li>
+<li>Label(label)（标签）</li>
+<li>Replication Controller（复制控制器）</li>
+<li>Service（enter image description here）（服务）</li>
+</ul>
+<h3 id="2-Kubernetes-Master"><a href="#2-Kubernetes-Master" class="headerlink" title="2) Kubernetes Master"></a>2) Kubernetes Master</h3><p>Master指的是集群控制节点。每个K8s集群里需要有一个Ms节点负责整个集群的管理和控制。Kubernetes Master提供集群的独特视角，并且拥有一系列组件。</p>
+<ul>
+<li>Kubernetes API Server（kube-apiserver），侍卫大统领！提供HTTP Rest接口的关键服务进程，是K8s里所有资源的增删改查等操作的唯一入口，也是集群控制的入口进程。API Server提供可以用来和集群交互的Rest端点。</li>
+<li>Kubernetes Controller Master（kube-controller-manager）掌印大太监，大总管！K8s里所有资源对象的自动化控制中心。</li>
+<li>Kubernetes Scheduler（kube-scheduler），御马间的调度室！负责资源调度（Pod调度）的进程。创建和复制Pod的Replication Controller。</li>
+</ul>
+<h3 id="3-Node"><a href="#3-Node" class="headerlink" title="3) Node"></a>3) Node</h3><p>节点（上图橘色方框）是物理或者虚拟机器，作为Kubernetes worker，通常称为Minion。每个节点都运行如下Kubernetes关键组件。</p>
+<blockquote>
+<p>(1) Kubelet：与Master节点协作，是主节点的代理，负责Pod对应容器的创建，启动，停止等任务。默认情况下Kubelet会向Master注册自己。Kubelet定期向主机点汇报加入集群的Node的各类信息。<br>(2) Kube-proxy：Kubernetes Service使用其将链接路由到Pod，作为外部负载均衡器使用，在一定数量的Pod之间均衡流量。比如，对于负载均衡Web流量很有用。<br>(3) Docker或Rocket：Kubernetes使用的容器技术来创建容器。</p>
+</blockquote>
+<h3 id="4-Pod"><a href="#4-Pod" class="headerlink" title="4) Pod"></a>4) Pod</h3><p>Pod是K8s最重要也是最基础的概念！每个Pod都有一个特殊的被称为“根容器”的Pause容器，此容器与引入业务无关并且不易死亡。且以它的状态代表整个容器组的状态！Pause容器对应的镜像属于K8s平台的一部分，除了Pause容器，每个Pod还包含一个或多个用户业务容器。Pod其实有两种类型：普通的Pod及静态Pod（static Pod）,static Pod并不存放在Kubemetes的eted存储里，而是存放在某个具体的Node上的一个具体文件中，并且只在此Node上启动运行。而普通的Pod一旦被创建，就会被放入到etcd中存储，确后会被KubernetesMaster调度到某个具体的Node上并进行绑定（Binding），随后该Pod被对应的Node上的kubelet进程实例化成一组相关的Docker容器并启动起来。在默认情况下，当Pod里的某个容器停止时，Kubemetes会自动检测到这个问题并且重新启动这个Pod（重启Podel）的所有容器），如果Pod所在的Node完机，则会将这个Node上的所有Pod重新调度到其他节点上。Pod（上图绿色方框）安排在节点上，包含一组容器和卷。同一个Pod里的容器共享同一个网络命名空间，可以使用localhost互相通信。<br><img src="/img/article/K8s2.png" alt="K8s2"><br>Endpoint（Pod IP + ContainerPort） pod ip：一个Pod里多个容器共享Pod IP地址。K8s要求底层网络支持集群内任意两个Pod之间的TCP/IP直接通信，使用虚拟二层网络技术（Flannel（没有接触过 ），OpenvSwitch）实现。在Vmware中类似的二层交换技术是VSwitch，当然了，现在整个数据中心网络二层逐步从vSwitch—&gt;OpenvSwitch</p>
+<h3 id="5-Lable"><a href="#5-Lable" class="headerlink" title="5) Lable"></a>5) Lable</h3><p>Lable类似Docker中的tag，一个是对“特殊”镜像、容器、卷组等各种资源做标记，一个是attach到各种诸如Node、Pod、Server、RC资源对象上。不同的是Lable是一对键值对！Lable类似Tag，可使用K8s专有的标签选择器（Label Selector）进行组合查询。</p>
+<h3 id="6-Replication-Controller"><a href="#6-Replication-Controller" class="headerlink" title="6) Replication Controller"></a>6) Replication Controller</h3><p>Replication Controller，简称RC，她用来干啥呢？就是通过她来实现Pod副本数量的自动控制！RC确保任意时间都有指定数量的Pod“副本”在运行。</p>
+<blockquote>
+<p>如果为某个Pod创建了RC并且指定3个副本，它会创建3个Pod，并且持续监控它们。如果某个Pod不响应，那么Replication Controller会替换它，保持总数为3。如果之前不响应的Pod恢复了，现在就有4个Pod了，那么Replication Controller会将其中一个终止保持总数为3。如果在运行中将副本总数改为5，Replication Controller会立刻启动2个新Pod，保证总数为5。还可以按照这样的方式缩小Pod，这个特性在执行滚动升级时很有用。<br>注意：删除RC，不会影响该RC已经创建好的Pod。在逻辑上Pod副本和RC是解耦和的！创建RC时，需要指定Pod模板（用来创建Pod副本的模板）和Label（RC需要监控的Pod标签）。<br>由Replication Controller衍生出Deployment，与RC相似90%，目的是更好地解决Pod编排。暂时不讨论。<br>Horizontal Pod Autoscaler，简称HPA，Pod横向自动扩容智能控件。与RC，Deployment一样，也属于K8s的一种资源对象。她的实现原理是通过追踪分析RC控制的所有目标Pod的负载变化情况，来确定是否针对性地调整目标Pod的副本数。</p>
+</blockquote>
+<h3 id="7-Service"><a href="#7-Service" class="headerlink" title="7) Service"></a>7) Service</h3><p>微服务架构中的一个“微服务”，她是正真的新娘，而之前的Pod，RC等资源对象其实都是嫁衣。<br>每个Pod都会被分配一个单独的IP地址，而且每个Pod都提供了一个独立的Endpoint（Pod lP + ContainerPort）以被客户端访问，现在多个Pod副本组成了一个集群来提供服务，客户端要想访问集群，一般的做法是部署一个负载均衡器（软件或硬件），为这组Pod开启一个对外的服务端口如8000端口，并且将这些Pod的Endpoint列表加入8000端口的转发列表中，客户端就可以通过负载均衡器的对外IP地址 + 服务端口来访问此服务，而客户端的请求最后会被转发到哪个Pod，则由负载均衡器的算法所决定。<br><img src="/img/article/K8s3.png" alt="K8s3"><br>K8s的server定义了一个服务的访问入口地址，前端（Pod）通过入口地址访问其背后的一组由Pod副本组成的集群实例，service与其后端Pod副本集群之间通过Label Selector 实现“无缝对接”。</p>
+<blockquote>
+<p>可以将Server抽象成特殊的扁平的双向管道，Service借助Label Selector保证了前端容器正确可靠地指向对应的后台容器。 RC的作用保证了Service的服务能力和服务质量始终处于预期的标准。</p>
+</blockquote>
+<p>Kubemetes也遵循了上述常规做法，运行在每个Node上的kube-proxy进程其实就是一个智能的软件负载均衡器，它负责把对Service的请求转发到后端的某个Pod实例上，并在内部实现服务的负载均衡与会话保持机制。但Kubernetes发明了一种很巧妙又影响深远的设计：Service不是共用一个负载均衡器的IP地址，而是每个Service分配了一个全局唯一的虚拟IP地址，这个虚拟IP被称为ClusterIP。这样一来，每个服务就变成了具备唯一IP地址的“通信节点”，服务调用就变成了最基础的TCP网络通信问题。</p>
+<blockquote>
+<p>Pod的Endpoint地址会随着Pod的销毁和重新创建而发生改变，因为新Pod的IP地址与之前旧Pod的不同。而Service一旦创建，Kubemetes就会自动为它分配一个可用的Cluster IP，而且在Service的整个生命周期内，它的ClusterIP不会发生改变。于是，服务发现这个棘手的问题Kubemetes的架构里也得以轻松解决：只要用Service的Name与Service的Cluster IP地址做一个DNS域名映射即可完美解决问题。</p>
+</blockquote>
+<h1 id="版本问题"><a href="#版本问题" class="headerlink" title="版本问题"></a>版本问题</h1><table>
+<thead>
+<tr>
+<th>初始版本</th>
+<th>2014年6月7日，4年前</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>稳定版本</td>
+<td>1.10.3（2018年5月21日，3个月前)</td>
+</tr>
+<tr>
+<td>开发状态</td>
+<td>活跃</td>
+</tr>
+<tr>
+<td>编程语言</td>
+<td>Go</td>
+</tr>
+<tr>
+<td>操作系统</td>
+<td>跨平台</td>
+</tr>
+<tr>
+<td>类型</td>
+<td>集群管理</td>
+</tr>
+<tr>
+<td>许可协议</td>
+<td>Apache许可证 2.0</td>
+</tr>
+<tr>
+<td>网站</td>
+<td>kubernetes.io</td>
+</tr>
+<tr>
+<td>源代码库</td>
+<td>github.com/kubernetes/kubernetes</td>
+</tr>
+</tbody>
+</table>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/AWS/AWS之Qwiklab1/" data-toggle="tooltip" data-placement="top" title="AWS之Qwiklab1">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/TEST/hello-world/" data-toggle="tooltip" data-placement="top" title="Hello World">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#K8s概述"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">K8s概述</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#K8s的工作原理"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">K8s的工作原理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-什么是K8s"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">1. 什么是K8s</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-用法"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">2. 用法</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-核心概念"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">3. 核心概念</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-集群"><span class="toc-nav-number">2.3.1.</span> <span class="toc-nav-text">1) 集群</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-Kubernetes-Master"><span class="toc-nav-number">2.3.2.</span> <span class="toc-nav-text">2) Kubernetes Master</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-Node"><span class="toc-nav-number">2.3.3.</span> <span class="toc-nav-text">3) Node</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-Pod"><span class="toc-nav-number">2.3.4.</span> <span class="toc-nav-text">4) Pod</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-Lable"><span class="toc-nav-number">2.3.5.</span> <span class="toc-nav-text">5) Lable</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#6-Replication-Controller"><span class="toc-nav-number">2.3.6.</span> <span class="toc-nav-text">6) Replication Controller</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#7-Service"><span class="toc-nav-number">2.3.7.</span> <span class="toc-nav-text">7) Service</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#版本问题"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">版本问题</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Kubernetes" title="Kubernetes">Kubernetes</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://docs.amazonaws.cn/index.html#lang/zh_cn" target="_blank">AWS</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/gunxiaoshi/" target="_blank">博客园</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/abe128c859a6" target="_blank">简书</a></li>
+                    
+                        <li><a href="" target="_blank">DockOne</a></li>
+                    
+                        <li><a href="" target="_blank">阿里云栖社区 </a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; gunxiaoshi 2018 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    change by <a href="http://www.gunxiaoshi.me">gunxiaoshi</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://gunxiaoshi.me/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://gunxiaoshi.me/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

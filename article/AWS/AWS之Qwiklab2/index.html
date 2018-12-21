@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Every failure is leading towards success.">
+    <meta name="keyword" content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          AWS之Qwiklab2 - gunxiaoshi | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://gunxiaoshi.me/article/AWS/AWS之Qwiklab2/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article (5).png')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header">
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                            
+                        </div>
+                        <h1>AWS之Qwiklab2</h1>
+                        <h2 class="subheading">实验-API Gateway, AWS Lambda</h2>
+                        <span class="meta">
+                            Posted by gunxiaoshi on
+                            2018-09-20
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">gunxiaoshi</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Introduction-to-Amazon-API-Gateway"><a href="#Introduction-to-Amazon-API-Gateway" class="headerlink" title="Introduction to Amazon API Gateway"></a>Introduction to Amazon API Gateway</h1><p><strong><a href="https://run.qwiklabs.com/focuses/269?catalog_rank=%7B%22rank%22%3A7%2C%22num_filters%22%3A2%2C%22has_search%22%3Atrue%7D&amp;parent=catalog" target="_blank" rel="noopener">Amazon API Gateway简介</a></strong></p>
+<h2 id="知识梳理"><a href="#知识梳理" class="headerlink" title="知识梳理"></a>知识梳理</h2><h3 id="1-技术概念"><a href="#1-技术概念" class="headerlink" title="1. 技术概念"></a>1. 技术概念</h3><h4 id="微服务架构："><a href="#微服务架构：" class="headerlink" title="微服务架构："></a>微服务架构：</h4><p>“微服务架构格式是一种将单个应用程序作为一套小型服务开发的方法，每个小型服务部在自己的流程中运行，并与轻量级机制（通常是HTTP资源API）进行通信。这些服务围绕业务功能构建，可以完全独立部署自动部署机制。这些服务至少集中管理，可以用不同的编程语言编写，并使用不同的数据存储技术。“<br>微服务架构的想法是采用一个庞大而复杂的系统，并将其分解为易于管理和扩展的独立，分离的服务，这使开发人员能够实现其可扩展性，可用性和可维护性等关键设计目标。</p>
+<h4 id="Amazon-API-Gateway"><a href="#Amazon-API-Gateway" class="headerlink" title="Amazon API Gateway"></a>Amazon API Gateway</h4><p>Amazon API Gateway和AWS Lambda提供Web服务的完美组合，可轻松构建，交付和维护一套可作为复杂软件系统基础的微服务。</p>
+<h4 id="应用程序编程接口（API）："><a href="#应用程序编程接口（API）：" class="headerlink" title="应用程序编程接口（API）："></a>应用程序编程接口（API）：</h4><p>一个应用程序编程接口是一组指令，它定义开发人员如何与应用程序果面。AP背后的想法是创建一种标准化方法来连接应用程序提供的各种服务。AP1旨在与软件开发工具包（SDK）一起使用，后者是一组工具，允许开发人员基于API轻松创建下游应用程<br>序。</p>
+<h4 id="API优先战略："><a href="#API优先战略：" class="headerlink" title="API优先战略："></a>API优先战略：</h4><p>许多软件组织正在采用API-First策略，其中堆代中的每个服务都是第一个，并且始终作为APl发布。RESTful API：表示性状态转移（REST）是指遵循六个约束的体系结构：</p>
+<ul>
+<li>通过客户端-服务器模型分离关注点。</li>
+<li>状态完全存储在客户端上，客户端和服务器之间的通信是无状态的。</li>
+<li>客户端将缓存数据以提高网络效率</li>
+<li>服务器和客户端之间有一个统一的接口（以API的形式）。</li>
+<li>随着复杂性被添加到系统中，引入了层。可能有多层REST利组件。</li>
+<li>遵循按需代码模式，其中代码可以即时下载，并且无需更新客户说明可进行再改。</li>
+</ul>
+<h3 id="2-定义与作用"><a href="#2-定义与作用" class="headerlink" title="2. 定义与作用"></a>2. 定义与作用</h3><p>Amazon API Gateway 是一项 AWS 服务，让开发人员能够创建、发布、维护、监控和保护任何规模的 API。您可以创建能够访问 AWS、其他 Web 服务以及存储在 AWS 云中的数据的 API。 可将 API Gateway 视为云中的一个背板，用于连接 AWS 服务和其他公有或私有网站。它可以提供一致的 RESTful 应用程序编程接口 (API)，让移动和 Web 应用程序可以访问 AWS 服务。<br>API Gateway 的架构如右图所示。</p>
+<h3 id="3-核心概念"><a href="#3-核心概念" class="headerlink" title="3. 核心概念"></a>3. 核心概念</h3><p> APIGateway是AwS提供的托管服务，可以轻松创建，部署和维护API。APIGateway包含以下功能：</p>
+<ul>
+<li>转换传入API请求的正文和标头以匹配后端系统</li>
+<li>转换传出API响应的正文和标题以匹配API要求</li>
+<li><p>通过Amazon Identity and Access Management控制API访问</p>
+</li>
+<li><p>为第三方开发创建和应用API密钥</p>
+</li>
+<li>启用Amazon CloudWatch 集成以进行API监控</li>
+<li>通过Amazon CloudFront缓存API响应，以缩短响应时间</li>
+<li>将API部署到多个阶段，可以轻松区分开发，测试，生产和版本控制</li>
+<li>将自定义域连接到API</li>
+<li>定义模型以帮助标准化API请求和响应转换</li>
+</ul>
+<h3 id="4-Amazon-API网关和AWS-Lambda术语"><a href="#4-Amazon-API网关和AWS-Lambda术语" class="headerlink" title="4. Amazon API网关和AWS Lambda术语"></a>4. Amazon API网关和AWS Lambda术语</h3><ul>
+<li>资源：表示为URL端点和路径。例如，api.mysite/questions。可以将HTTP方法与资源相关联，并为每个方法定义不同的后端目标。在微服务架构中，资源将代表系统中的单个微服务。</li>
+<li>方法：在API网关中，通过资源路径和HTTP谓词的组合来识别方法，例如GET , POST FODELETE</li>
+<li>方法请求：API网关中的方法请求设置存储方法授权设置，并定义从客户端接收的URL查询字符串参数和HTTP请求标头。</li>
+<li>集成请求：集成请求设置定义与方法一起使用的后端目标。可以在其中定义映射模板，以转换传入请求以匹配后端目标所期望的内容。</li>
+<li>集成响应：集成响应设置是在后端目标的响应和API网关中的方法响应之间定义映射的位置。还可以转换从后端目标返回的数据，以适应最终用户和应用程序的期望。</li>
+<li>方法响应：方法响应设置定义方法响应类型，其标头和内容类型。</li>
+<li>模型：在API网关中，模型定义某些数据的格式，也称为模式或形状。可以创建和使用模型，以便更轻松地创建映射模板。由于API网关主要用于JavaScript Object Notation (JSON) 格式化数据, 因此API Gateway 使用JSON Schema定义数据的预期模式。</li>
+<li>阶段：在API网关中，阶段定义可通过其访问AP廊署的路径。这通常用于区分版本，开发与生产端占等。</li>
+<li>蓝图：Lambdacddambda函数，可用作构建新Lambda函数的基础。<h3 id="5-API-Gateway-的架构如图所示："><a href="#5-API-Gateway-的架构如图所示：" class="headerlink" title="5. API Gateway 的架构如图所示："></a>5. API Gateway 的架构如图所示：</h3><img src="/img/article/AWS1.png" alt="AWS1"><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"># Node.js 8.10</span><br><span class="line">exports.handler = <span class="keyword">async</span> (event) =&gt; &#123;</span><br><span class="line">    <span class="comment">// TODO implement</span></span><br><span class="line">    <span class="keyword">const</span> response = &#123;</span><br><span class="line">        statusCode: <span class="number">200</span>,</span><br><span class="line">        body: <span class="built_in">JSON</span>.stringify(<span class="string">'Hello from Lambda!'</span>)</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> response;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h1 id="Introduction-to-AWS-Lambda"><a href="#Introduction-to-AWS-Lambda" class="headerlink" title="Introduction to AWS Lambda"></a>Introduction to AWS Lambda</h1><p><strong><a href="https://run.qwiklabs.com/focuses/284?catalog_rank=%7B%22rank%22%3A6%2C%22num_filters%22%3A2%2C%22has_search%22%3Atrue%7D&amp;parent=catalog" target="_blank" rel="noopener">AWS Lambda简介</a></strong></p>
+<h2 id="知识梳理-1"><a href="#知识梳理-1" class="headerlink" title="知识梳理"></a>知识梳理</h2><h3 id="1-定义与作用"><a href="#1-定义与作用" class="headerlink" title="1. 定义与作用"></a>1. 定义与作用</h3><p>AWS Lambda 是一项计算服务，使客户无需预配置或管理服务器即可运行代码。AWS Lambda 只在需要时执行客户代码并自动缩放，从每天几个请求到每秒数千个请求。只需按消耗的计算时间付费 – 代码未运行时不产生费用。借助 AWS Lambda，几乎可以为任何类型的应用程序或后端服务运行代码，而且无需执行任何管理。AWS Lambda 在可用性高的计算基础设施上运行您的代码，执行计算资源的所有管理工作，其中包括服务器和操作系统维护、容量预置和自动扩展、代码监控和记录。只需要以 AWS Lambda 支持的一种语言 (目前为 Node.js、Java、C#、Go 和 Python) 提供您的代码。</p>
+<h3 id="2-AWS-Lambda使用场景"><a href="#2-AWS-Lambda使用场景" class="headerlink" title="2. AWS Lambda使用场景"></a>2. AWS Lambda使用场景</h3><p>AWS Lambda 是很多应用程序场景的理想计算平台，只要可以用 AWS Lambda 支持的语言 (即，Node.js、Java、Go、C# 和 Python) 编写应用程序代码并在 AWS Lambda 标准运行时环境和 Lambda 提供的资源中运行。<br>在使用 AWS Lambda 时，您只需负责自己的代码。AWS Lambda 管理提供内存、CPU、网络和其他资源均衡的计算机群。这是以灵活性为代价的，这意味着您不能登录计算实例，或自定义操作系统或语言运行时。通过这些约束，AWS Lambda 可以代表您执行操作和管理活动，包括预置容量、监控机群运行状况、应用安全补丁、部署您的代码以及监控和记录您的 Lambda 函数日志。<br>如果您需要管理自己的计算资源，Amazon Web Services 还提供了其他计算服务以满足您的需求。</p>
+<ul>
+<li>Amazon Elastic Compute Cloud (Amazon EC2) 服务提供灵活性和各种 EC2 实例类型供您选择。它允许您选择自定义操作系统、网络和安全性设置以及整个软件堆栈，但您负责预置容量、监控机群运行状况和性能以及使用可用区来实现容错。</li>
+<li>Elastic Beanstalk 提供易用的服务，您可将应用程序部署和扩展到 Amazon EC2 上，在其中您保留对底层 EC2 实例的所有权和完整控制权。</li>
+</ul>
+<h3 id="3-AWS-语言工具选项"><a href="#3-AWS-语言工具选项" class="headerlink" title="3. AWS 语言工具选项"></a>3. AWS 语言工具选项</h3><table>
+<thead>
+<tr>
+<th>AWS</th>
+<th>语言工具选项 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td> Node.js</td>
+<td>AWS Lambda 控制台；Visual Studio，带 IDE 插件（请参阅 Visual Studio 中的 AWS Lambda 支持）</td>
+</tr>
+<tr>
+<td> Python</td>
+<td>AWS Lambda 控制台；您自己的编写环境；有关更多信息，请参阅 <a href="https://docs.aws.amazon.com/zh_cn/lambda/latest/dg/lambda-app.html#lambda-app-deploy" target="_blank" rel="noopener">部署代码和创建 Lambda 函数。</a></td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-用于使用-Python-编写-Lambda-函数的编程模型"><a href="#4-用于使用-Python-编写-Lambda-函数的编程模型" class="headerlink" title="4. 用于使用 Python 编写 Lambda 函数的编程模型"></a>4. 用于使用 Python 编写 Lambda 函数的编程模型</h3><p><a href="https://docs.aws.amazon.com/zh_cn/lambda/latest/dg/python-programming-model.html" target="_blank" rel="noopener">https://docs.aws.amazon.com/zh_cn/lambda/latest/dg/python-programming-model.html</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">基础Lambda 函数:</span><br><span class="line">exports.handler = <span class="function">(<span class="params">event, context, callback</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 字符串“Hello world!”已成功。</span></span><br><span class="line">    callback(<span class="literal">null</span>, <span class="string">'Hello world!'</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">Lambda 代码说明（Python3<span class="number">.6</span>）：</span><br><span class="line"><span class="keyword">import</span> boto3</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> urllib</span><br><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> PIL.Image</span><br><span class="line"> </span><br><span class="line">s3_client = boto3.client(<span class="string">'s3'</span>)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">resize_image</span><span class="params">(image_path, resized_path)</span>:</span></span><br><span class="line">    <span class="keyword">with</span> Image.open(image_path) <span class="keyword">as</span> image:</span><br><span class="line">        image.thumbnail((<span class="number">128</span>,<span class="number">128</span>))</span><br><span class="line">        image.save(resized_path)</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">handler</span><span class="params">(event, context)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> record <span class="keyword">in</span> event[<span class="string">'Records'</span>]:</span><br><span class="line">        bucket = record[<span class="string">'s3'</span>][<span class="string">'bucket'</span>][<span class="string">'name'</span>]</span><br><span class="line">        key = record[<span class="string">'s3'</span>][<span class="string">'object'</span>][<span class="string">'key'</span>]</span><br><span class="line">        raw_key = urllib.parse.unquote_plus(key)</span><br><span class="line">        download_path = <span class="string">'/tmp/&#123;&#125;'</span>.format(key)</span><br><span class="line">        upload_path = <span class="string">'/tmp/resized-&#123;&#125;'</span>.format(key)</span><br><span class="line"> </span><br><span class="line">        s3_client.download_file(bucket, raw_key, download_path)</span><br><span class="line">        resize_image(download_path, upload_path)</span><br><span class="line">        s3_client.upload_file(upload_path,</span><br><span class="line">             <span class="string">'&#123;&#125;-resized'</span>.format(bucket),</span><br><span class="line">             <span class="string">'thumbnail-&#123;&#125;'</span>.format(raw_key),</span><br><span class="line">             ExtraArgs=&#123;<span class="string">'ContentType'</span>: <span class="string">'image/jpeg'</span>&#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">Lambda 代码之S3 put测试：</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"Records"</span>: [</span><br><span class="line">    &#123;</span><br><span class="line">      <span class="attr">"eventVersion"</span>: <span class="string">"2.0"</span>,</span><br><span class="line">      <span class="attr">"eventTime"</span>: <span class="string">"1970-01-01T00:00:00.000Z"</span>,</span><br><span class="line">      <span class="attr">"requestParameters"</span>: &#123;</span><br><span class="line">        <span class="attr">"sourceIPAddress"</span>: <span class="string">"127.0.0.1"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"s3"</span>: &#123;</span><br><span class="line">        <span class="attr">"configurationId"</span>: <span class="string">"testConfigRule"</span>,</span><br><span class="line">        <span class="attr">"object"</span>: &#123;</span><br><span class="line">          <span class="attr">"eTag"</span>: <span class="string">"0123456789abcdef0123456789abcdef"</span>,</span><br><span class="line">          <span class="attr">"sequencer"</span>: <span class="string">"0A1B2C3D4E5F678901"</span>,</span><br><span class="line">          <span class="attr">"key"</span>: <span class="string">"HappyFace.jpg"</span>,</span><br><span class="line">          <span class="attr">"size"</span>: <span class="number">1024</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"bucket"</span>: &#123;</span><br><span class="line">          <span class="attr">"arn"</span>: <span class="string">"arn:aws:s3:::mybucket"</span>,</span><br><span class="line">          <span class="attr">"name"</span>: <span class="string">"dingjianfeng-993"</span>,</span><br><span class="line">          <span class="attr">"ownerIdentity"</span>: &#123;</span><br><span class="line">            <span class="attr">"principalId"</span>: <span class="string">"EXAMPLE"</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">"s3SchemaVersion"</span>: <span class="string">"1.0"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"responseElements"</span>: &#123;</span><br><span class="line">        <span class="attr">"x-amz-id-2"</span>: <span class="string">"EXAMPLE123/5678abcdefghijklambdaisawesome/mnopqrstuvwxyzABCDEFGH"</span>,</span><br><span class="line">        <span class="attr">"x-amz-request-id"</span>: <span class="string">"EXAMPLE123456789"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"awsRegion"</span>: <span class="string">"us-west-2"</span>,</span><br><span class="line">      <span class="attr">"eventName"</span>: <span class="string">"ObjectCreated:Put"</span>,</span><br><span class="line">      <span class="attr">"userIdentity"</span>: &#123;</span><br><span class="line">        <span class="attr">"principalId"</span>: <span class="string">"EXAMPLE"</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">"eventSource"</span>: <span class="string">"aws:s3"</span></span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="5-AWS-Lambda应用程序流程"><a href="#5-AWS-Lambda应用程序流程" class="headerlink" title="5. AWS Lambda应用程序流程"></a>5. AWS Lambda应用程序流程</h3><p><img src="/img/article/AWSoverview1.png" alt="AWSoverview1"></p>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/AWS/AWS之Qwiklab3/" data-toggle="tooltip" data-placement="top" title="AWS之Qwiklab3">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/AWS/AWS之Qwiklab1/" data-toggle="tooltip" data-placement="top" title="AWS之Qwiklab1">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Introduction-to-Amazon-API-Gateway"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Introduction to Amazon API Gateway</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#知识梳理"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">知识梳理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-技术概念"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">1. 技术概念</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#微服务架构："><span class="toc-nav-number">1.1.1.1.</span> <span class="toc-nav-text">微服务架构：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#Amazon-API-Gateway"><span class="toc-nav-number">1.1.1.2.</span> <span class="toc-nav-text">Amazon API Gateway</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#应用程序编程接口（API）："><span class="toc-nav-number">1.1.1.3.</span> <span class="toc-nav-text">应用程序编程接口（API）：</span></a></li><li class="toc-nav-item toc-nav-level-4"><a class="toc-nav-link" href="#API优先战略："><span class="toc-nav-number">1.1.1.4.</span> <span class="toc-nav-text">API优先战略：</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-定义与作用"><span class="toc-nav-number">1.1.2.</span> <span class="toc-nav-text">2. 定义与作用</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-核心概念"><span class="toc-nav-number">1.1.3.</span> <span class="toc-nav-text">3. 核心概念</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-Amazon-API网关和AWS-Lambda术语"><span class="toc-nav-number">1.1.4.</span> <span class="toc-nav-text">4. Amazon API网关和AWS Lambda术语</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-API-Gateway-的架构如图所示："><span class="toc-nav-number">1.1.5.</span> <span class="toc-nav-text">5. API Gateway 的架构如图所示：</span></a></li></ol></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Introduction-to-AWS-Lambda"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Introduction to AWS Lambda</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#知识梳理-1"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">知识梳理</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-定义与作用"><span class="toc-nav-number">2.1.1.</span> <span class="toc-nav-text">1. 定义与作用</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-AWS-Lambda使用场景"><span class="toc-nav-number">2.1.2.</span> <span class="toc-nav-text">2. AWS Lambda使用场景</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#3-AWS-语言工具选项"><span class="toc-nav-number">2.1.3.</span> <span class="toc-nav-text">3. AWS 语言工具选项</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#4-用于使用-Python-编写-Lambda-函数的编程模型"><span class="toc-nav-number">2.1.4.</span> <span class="toc-nav-text">4. 用于使用 Python 编写 Lambda 函数的编程模型</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#5-AWS-Lambda应用程序流程"><span class="toc-nav-number">2.1.5.</span> <span class="toc-nav-text">5. AWS Lambda应用程序流程</span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#AWS" title="AWS">AWS</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://docs.amazonaws.cn/index.html#lang/zh_cn" target="_blank">AWS</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/gunxiaoshi/" target="_blank">博客园</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/abe128c859a6" target="_blank">简书</a></li>
+                    
+                        <li><a href="" target="_blank">DockOne</a></li>
+                    
+                        <li><a href="" target="_blank">阿里云栖社区 </a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://github.com/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.linkedin.com/in/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; gunxiaoshi 2018 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    change by <a href="http://www.gunxiaoshi.me">gunxiaoshi</a> | 
+                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true">
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://gunxiaoshi.me/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://gunxiaoshi.me/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
