@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Hello World - gunxiaoshi | Blog
+          PythonCrawler之urllib库的使用 - gunxiaoshi | Blog
         
     </title>
 
-    <link rel="canonical" href="http://gunxiaoshi.me/article/TEST/hello-world/">
+    <link rel="canonical" href="http://gunxiaoshi.me/article/Python/PythonCrawler之urllib/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,7 +69,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/article_header/article_bg.jpg')
+            background-image: url('/img/article_header/pythonCrawler.png')
             /*post*/
         
     }
@@ -86,14 +86,18 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Test" title="Test">Test</a>
+                              <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                            
+                              <a class="tag" href="/tags/#爬虫" title="爬虫">爬虫</a>
+                            
+                              <a class="tag" href="/tags/#urllib" title="urllib">urllib</a>
                             
                         </div>
-                        <h1>Hello World</h1>
-                        <h2 class="subheading"></h2>
+                        <h1>PythonCrawler之urllib库的使用</h1>
+                        <h2 class="subheading">爬虫一，urllib库</h2>
                         <span class="meta">
                             Posted by gunxiaoshi on
-                            2017-05-26
+                            2018-12-14
                         </span>
                     </div>
                 
@@ -210,15 +214,7 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <h1 id="预创建的-Estimator"><a href="#预创建的-Estimator" class="headerlink" title="预创建的 Estimator"></a>预创建的 Estimator</h1><p>_**_</p>
 
                 
 
@@ -227,9 +223,13 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Kubernetes/Kubernetes初探/" data-toggle="tooltip" data-placement="top" title="Kubernetes之初探">&larr; Previous Post</a>
+                            <a href="/article/Python/PythonCrawler之requests/" data-toggle="tooltip" data-placement="top" title="PythonCrawler之requests库的使用">&larr; Previous Post</a>
                         </li>
                     
+                    
+                        <li class="next">
+                            <a href="/article/Python/Python之TensorFlow_Estimator/" data-toggle="tooltip" data-placement="top" title="Python之TensorFlow_Estimator">Next Post &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -257,6 +257,24 @@
             <!-- Tabe of Content -->
             <!-- Table of Contents -->
 
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#预创建的-Estimator"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">预创建的 Estimator</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
                 
             <!-- Sidebar Container -->
             <div class="
@@ -271,7 +289,11 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Test" title="Test">Test</a>
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                          <a class="tag" href="/tags/#爬虫" title="爬虫">爬虫</a>
+                        
+                          <a class="tag" href="/tags/#urllib" title="urllib">urllib</a>
                         
                     </div>
                 </section>

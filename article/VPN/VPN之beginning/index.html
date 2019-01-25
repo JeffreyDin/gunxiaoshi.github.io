@@ -14,7 +14,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          VPN之beginning - gunxiaoshi | Blog
+          VPN之详解一 - gunxiaoshi | Blog
         
     </title>
 
@@ -69,7 +69,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/article_header/article (7).jpg')
+            background-image: url('/img/article_header/vpn.jpg')
             /*post*/
         
     }
@@ -89,11 +89,11 @@
                               <a class="tag" href="/tags/#VPN" title="VPN">VPN</a>
                             
                         </div>
-                        <h1>VPN之beginning</h1>
-                        <h2 class="subheading"></h2>
+                        <h1>VPN之详解一</h1>
+                        <h2 class="subheading">VPN分类</h2>
                         <span class="meta">
                             Posted by gunxiaoshi on
-                            2018-12-13
+                            2018-09-18
                         </span>
                     </div>
                 
@@ -140,14 +140,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -210,16 +210,35 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="一级标题"><a href="#一级标题" class="headerlink" title="一级标题"></a>一级标题</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><h3 id="三级标题"><a href="#三级标题" class="headerlink" title="三级标题"></a>三级标题</h3>
+                <h1 id="1-虚拟私有网络"><a href="#1-虚拟私有网络" class="headerlink" title="1.虚拟私有网络"></a>1.虚拟私有网络</h1><p>当提到术语VPN（Virtual Private Network）时，许多人立刻想到的是在公司内部或者公司之间提供私有连接的IPSec站点到站点VPN 或者远程访问VPN，虽然这两种方法都是有效的VPN连接类型，但是也有许多其他的技术由于其用途和功能，也被定位为VPN的类型或者方法，包括下面这些技术。</p>
+<ul>
+<li>虚拟本地局域网络(VLAN)是常见的VPN类型，通过给网络数据加标签或者封装数据的方法来获得网络的分段和私有性。</li>
+<li>多协议标签交换(MPLS)VPN通过给数据包添加多个标签来提供跨WAN的网络之间的私有连接或整个网络的私有连接。</li>
+<li>通用路由加密(GRE)或者 IP-in-IP 的隧道方法在设备之间建立一个私有连接，它通过给一个组装的数据包添加头信息来形成一个点到点的隧道。</li>
+<li>传统的VPN 类型通常用于提供公司之间的 WAN 连接(例如X.25、帧中继和ATM)。</li>
+</ul>
+<h1 id="2-VPN分类"><a href="#2-VPN分类" class="headerlink" title="2.VPN分类"></a>2.VPN分类</h1><h3 id="根据建立方式分类"><a href="#根据建立方式分类" class="headerlink" title="根据建立方式分类"></a>根据建立方式分类</h3><ol>
+<li>通过tag等隔离方式提供私有性：VLAN； MPLS VPN</li>
+<li>可以同时提供私有性和安全：IPSec VPN；SSL VPN</li>
+</ol>
+<h3 id="根据客户网络接入方式分类"><a href="#根据客户网络接入方式分类" class="headerlink" title="根据客户网络接入方式分类"></a>根据客户网络接入方式分类</h3><ol>
+<li>Site to Site(站点到站点)连接方式</li>
+<li>Remote Access(远程访问)连接方式<h2 id="2-1-Site-To-Site-VPN连接技术主要包括："><a href="#2-1-Site-To-Site-VPN连接技术主要包括：" class="headerlink" title="2.1 Site To Site VPN连接技术主要包括："></a>2.1 Site To Site VPN连接技术主要包括：</h2>（1） GRE<br>GRE(Generic Routing Encapsulation，通用路由封装)协议能够对各种网络层协议(如IP和IPX)的数据报文进行封装，被封装的数据报文能够在IP网络中传输。GRE采用了Tunnel(隧道)技术，是VPN的三层隧道协议。<br>（2） IPSec VPN<br>IPSec VPN(Internet Protocol Security VPN)是业界标准的网络安全协议，可以为IP网络通信提供透明的安全服务，保护TCP/IP通信免遭窃听和篡改，从而有效地抵御网络攻击。IPSec VPN在网络的灵活性，安全性，经济性，展性等方面极具优势。<br>（3） MPLS VPN<br>MPLS VPN(MultiProtocol label Switch，多协议标签交换)是指采用MPLS技术在宽带IP的骨干网络上构建企业IP专网，以实现跨地域，安全，高速，可靠的数据，语音，图像等多业务通信。MPLS VPN结合区分服务，流量工程等相关技术，将公共网络可靠的性能，良好的扩展性，丰富的功能与专用网的安全，灵活，高效地结合在了一起，可以为用户提供高质量的服务。<h2 id="2-2-Remote-Access连接技术主要包括："><a href="#2-2-Remote-Access连接技术主要包括：" class="headerlink" title="2.2 Remote Access连接技术主要包括："></a>2.2 Remote Access连接技术主要包括：</h2>（1） IPSec VPN<br>IPSec VPN是一种全面的技术，它不仅适用于站点到站点 VPN 连接方式，也能够部署远程访问VPN。<br>（2） VPDN<br>VPDN (Virtual Private Dial-up Networks，虚拟私有拨号网络)是VPN业务的一种，具体包含的技术包括PPTP，L2TP和PPPoE等，是基于拨号用户的虚拟专用拨号网业务。即用户以拨号接人方式连网，并通过CDMA 1x分组网络传输数据时，VPDN会对传输的数据进行封装和加密，从而保障了传输数据的私密性，并使VPN达到私有网络的安全级别。VPDN是利用IP网络的承载功能结合相应的认证和授权机制建立起来的一种安全的虚拟专用网，是一种比较传统的VPN技术。<br>（3） SSL VPN<br>SSL VPN 指的是基于安全套接层 (Security Socket Layer，SSL) 协议建立远程安全访问通道的VPN 技术。 它是近年来兴起的VPN 技术，其应用随着Web的普及和电子商务，远程办公的兴起而迅速发展。</li>
+</ol>
+
                 
 
                 <hr>
                 <!-- Pager -->
                 <ul class="pager">
                     
+                        <li class="previous">
+                            <a href="/article/AWS/AWS之Qwiklab1/" data-toggle="tooltip" data-placement="top" title="AWS之Qwiklab1">&larr; Previous Post</a>
+                        </li>
+                    
                     
                         <li class="next">
-                            <a href="/article/Python/Python之TensorFlow_Estimator/" data-toggle="tooltip" data-placement="top" title="Python之机器学习">Next Post &rarr;</a>
+                            <a href="/article/Kubernetes/Kubernetes初探/" data-toggle="tooltip" data-placement="top" title="Kubernetes之初探">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -260,7 +279,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#一级标题"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">一级标题</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#二级标题"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">二级标题</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#三级标题"><span class="toc-nav-number">1.1.1.</span> <span class="toc-nav-text">三级标题</span></a></li></ol></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#1-虚拟私有网络"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">1.虚拟私有网络</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#2-VPN分类"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">2.VPN分类</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#根据建立方式分类"><span class="toc-nav-number">2.0.1.</span> <span class="toc-nav-text">根据建立方式分类</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#根据客户网络接入方式分类"><span class="toc-nav-number">2.0.2.</span> <span class="toc-nav-text">根据客户网络接入方式分类</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-1-Site-To-Site-VPN连接技术主要包括："><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">2.1 Site To Site VPN连接技术主要包括：</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-2-Remote-Access连接技术主要包括："><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">2.2 Remote Access连接技术主要包括：</span></a></li></ol>
         
         </div>
       </aside>
@@ -410,7 +429,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; gunxiaoshi 2018 
+                    Copyright &copy; gunxiaoshi 2019 
                     <br>
                     Theme by <a href="http://beantech.org">BeanTech</a> 
                     <span style="display: inline-block; margin: 0 5px;">
