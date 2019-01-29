@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          Test - gunxiaoshi | Blog
+          flask学习笔记 - gunxiaoshi | Blog
         
     </title>
 
-    <link rel="canonical" href="http://gunxiaoshi.me/article/TEST/hello-world/">
+    <link rel="canonical" href="http://gunxiaoshi.me/article/Python/Flask/flask模板/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,7 +69,7 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/article_header/article (1).jpg')
+            background-image: url('/img/article_header/Flask-vs-Django.jpg')
             /*post*/
         
     }
@@ -86,14 +86,16 @@
                     <div class="post-heading">
                         <div class="tags">
                             
-                              <a class="tag" href="/tags/#Test" title="Test">Test</a>
+                              <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                            
+                              <a class="tag" href="/tags/#flask" title="flask">flask</a>
                             
                         </div>
-                        <h1>Test</h1>
-                        <h2 class="subheading">1.Hello World</h2>
+                        <h1>flask学习笔记</h1>
+                        <h2 class="subheading">1.flask模板</h2>
                         <span class="meta">
                             Posted by gunxiaoshi on
-                            2017-05-26
+                            2018-12-14
                         </span>
                     </div>
                 
@@ -210,15 +212,9 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <h1 id="Flask学习"><a href="#Flask学习" class="headerlink" title="Flask学习"></a>Flask学习</h1><p><em><strong>学习Miguel Grinberg的2017年新版The Flask Mega-Tutorial教程中遇到的问题，加以记录。</strong></em><br>Miguel Grinberg的blog（Flask部分）：<br><a href="https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world" target="_blank" rel="noopener">The Flask Mega-Tutorial（December 6 2017）</a><br><a href="/sonfilename/"><i class="icon-refresh"></i> 点我刷新</a></p>
+<h1 id="Flask模板继承"><a href="#Flask模板继承" class="headerlink" title="Flask模板继承"></a>Flask模板继承</h1><p><strong>解决前端页面中相同模块同步、重复写的问题，Jinja2模板继承特性，将所有模板中相同的部分转移到一个基础模板中，然后再从它继承过来，避免诸多HTML模板上保留同样的代码和繁琐的工作。</strong><br><code>定义一个名为base.html(app/templates/base.html)的基本模板，其中包含一个简单的导航栏，保证每一个页面的导航栏都能同步</code><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    &#123;% if title %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; title &#125;&#125; - microblog - GXS<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    &#123;% else %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Welcome to microblog! <span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">&#123;# 导航栏代码 #&#125;</span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span>microblog - GXS:</span><br><span class="line">        <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"/index"</span>&gt;</span>Home<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">        &#123;# 写入需要引用公共模块的.html文件 #&#125;</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">hr</span>&gt;</span></span><br><span class="line">    &#123;% block content %&#125;&#123;% endblock %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>在这个模板中，使用block控制语句来定义派生模板可以插入代码的位置。 block被赋予一个唯一的名称，派生的模板可以在提供其内容时进行引用。<br>简化的index.html（app/templates/index.html）如下：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends "base.html" %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Hi, &#123;&#123; user.username &#125;&#125;!<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">    &#123;% for post in posts %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;<span class="name">p</span>&gt;</span>&#123;&#123; post.author.username &#125;&#125; says: <span class="tag">&lt;<span class="name">b</span>&gt;</span>&#123;&#123; post.body &#125;&#125;<span class="tag">&lt;/<span class="name">b</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    &#123;% endfor %&#125;</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure></p>
 
                 
 
@@ -227,9 +223,13 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/VPN/VPN详解-IPesc VPN/" data-toggle="tooltip" data-placement="top" title="VPN详解">&larr; Previous Post</a>
+                            <a href="/article/Python/PythonCrawler之urllib/" data-toggle="tooltip" data-placement="top" title="PythonCrawler之urllib库的使用">&larr; Previous Post</a>
                         </li>
                     
+                    
+                        <li class="next">
+                            <a href="/article/Python/Flask/flask框架函数/" data-toggle="tooltip" data-placement="top" title="flask学习笔记">Next Post &rarr;</a>
+                        </li>
                     
                 </ul>
 
@@ -269,7 +269,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#Quick-Start"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Quick Start</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Create-a-new-post"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">Create a new post</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Run-server"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">Run server</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Generate-static-files"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">Generate static files</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#Deploy-to-remote-sites"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">Deploy to remote sites</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Flask学习"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Flask学习</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Flask模板继承"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Flask模板继承</span></a></li></ol>
         
         </div>
       </aside>
@@ -289,7 +289,9 @@
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                        
-                          <a class="tag" href="/tags/#Test" title="Test">Test</a>
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                          <a class="tag" href="/tags/#flask" title="flask">flask</a>
                         
                     </div>
                 </section>
