@@ -92,7 +92,7 @@
                             
                         </div>
                         <h1>flask学习笔记</h1>
-                        <h2 class="subheading">11. Flask_Error汇总</h2>
+                        <h2 class="subheading">4. Flask_装饰器汇总</h2>
                         <span class="meta">
                             Posted by gunxiaoshi on
                             2018-12-14
@@ -213,106 +213,34 @@
                 post-container">
 
                 <h1 id="Flask的Error汇总"><a href="#Flask的Error汇总" class="headerlink" title="Flask的Error汇总"></a>Flask的Error汇总</h1><p><strong>本文档主要记录了Flask1.0.3某项目运行在Windows10中遇到的一系列Error等。</strong></p>
-<h2 id="1-redis-exceptions-ResponseError-Client-sent-AUTH-but-no-password-is-set"><a href="#1-redis-exceptions-ResponseError-Client-sent-AUTH-but-no-password-is-set" class="headerlink" title="1. redis.exceptions.ResponseError: Client sent AUTH, but no password is set"></a>1. redis.exceptions.ResponseError: Client sent AUTH, but no password is set</h2><ul>
-<li>类型错误：配置错误</li>
-<li>排错思路：本来已经在redis配置文件中设置了密码，但是仍然提示but no password is set，说明配置没有生效。然后就想到启动redis-server，可能没有指定到对应的配置文件中。 当然， 没有设置密码的，设置下密码就行。</li>
-<li>解决方法：找到redis-server 指定的配置文件/usr/local/redis-5.0.5/redis.conf或/etc/redis/6379.conf(新增，已经设置了开机启动)，然后指定到/etc/redis/6379.conf就行。</li>
-</ul>
-<h2 id="2-‘SQLALCHEMY-TRACK-MODIFICATIONS-adds-significant-overhead-and-‘等error"><a href="#2-‘SQLALCHEMY-TRACK-MODIFICATIONS-adds-significant-overhead-and-‘等error" class="headerlink" title="2. ‘SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and ‘等error."></a>2. ‘SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and ‘等error.</h2><ul>
-<li>类型错误：配置错误</li>
-<li>排错思路：该配合的基本都配置完成了，为什么还有相关error? 其实，调用代码是有序的，首先是指定数据库的链接地址，然后关闭数据库追踪（SQLALCHEMY_TRACK_MODIFICATIONS = False），她用于设置数据发生变更之后是否发送信号给应用，缺省为Ture。最后对数据库实例初始化。 创建一个SQLAlchemy实例，db对象来表示数据库。需要放在config后面，数据库在应用的表现形式是一个数据库实例，将会在应用实例化之后进行实例化和注册操作。</li>
-<li>解决方法：<ul>
-<li>第一种示例：<ul>
-<li>指定使用的数据库的链接地址<ul>
-<li>app.config[“SQLALCHEMY_DATABASE_URI”] = “mysql://root:<a href="mailto:mysql@127.0.0.1" target="_blank" rel="noopener">mysql@127.0.0.1</a>:3306/test8”</li>
-</ul>
-</li>
-<li>关闭追踪数据库的追踪特性<ul>
-<li>app.config[“SQLALCHEMY_TRACK_MODIFICATIONS”] = False</li>
-</ul>
-</li>
-<li>创建一个SQLAlchemy对象,需要放在config后面<ul>
-<li>db = SQLAlchemy(app)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>第二种示例：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config.py</span></span><br><span class="line">SQLALCHEMY_DATABASE_URI = <span class="string">"postgresql://&#123;DB_USER&#125;:&#123;DB_PASS&#125;@&#123;DB_ADDR&#125;:&#123;DB_POST&#125;/&#123;DB_NAME&#125;"</span>.format(DB_USER=pg_db_username,</span><br><span class="line">         DB_PASS=pg_db_password,                                                            DB_ADDR=pg_db_hostname,</span><br><span class="line">         DB_POST=pg_db_post,</span><br><span class="line">         DB_NAME=pg_db_name)</span><br><span class="line">SQLALCHEMY_TRACK_MODIFICATIONS = <span class="keyword">False</span></span><br><span class="line"><span class="comment"># __init__.py</span></span><br><span class="line">db = SQLAlchemy()</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="3-RecursionError-maximum-recursion-depth-exceeded-in-comparison"><a href="#3-RecursionError-maximum-recursion-depth-exceeded-in-comparison" class="headerlink" title="3. RecursionError: maximum recursion depth exceeded in comparison"></a>3. RecursionError: maximum recursion depth exceeded in comparison</h2><ul>
-<li>类型错误：递归错误，这在Flask中，一般是表单模板写错了</li>
-<li>排错思路：根据表单和视图去修改表单模板</li>
-<li>解决方法：根据表单和视图去修改表单模板</li>
-</ul>
-<h2 id="4-jinja2-exceptions-TemplateNotFound-jinja2-exceptions-TemplateNotFound-index"><a href="#4-jinja2-exceptions-TemplateNotFound-jinja2-exceptions-TemplateNotFound-index" class="headerlink" title="4. jinja2.exceptions.TemplateNotFound jinja2.exceptions.TemplateNotFound: /index"></a>4. jinja2.exceptions.TemplateNotFound jinja2.exceptions.TemplateNotFound: /index</h2><ul>
-<li>类型错误：找不到模板</li>
-<li>排错思路：针对我个人出现的问题是其他模板调用基本模板时，由于结构缺失爆发Error</li>
-<li>解决方法：<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends "base.html" %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">……</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="5-Method-Not-Allowed"><a href="#5-Method-Not-Allowed" class="headerlink" title="5. Method Not Allowed"></a>5. Method Not Allowed</h2><ul>
-<li>类型错误：参数错误，The method is not allowed for the requested URL.请求的URL不允许使用该方法。</li>
-<li>排错思路：视图功能缺失，没有逻辑来处理用户提交的数据。视图函数没有指定methods参数， 它告诉Flask这个视图函数接受GET和POST请求，并覆盖了默认的GET。</li>
-<li>解决方法：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/login', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></span><br><span class="line">    form = LoginForm()</span><br><span class="line">    <span class="keyword">if</span> form.validate_on_submit():</span><br><span class="line">        flash(<span class="string">'Login requested for user &#123;&#125;, remember_me=&#123;&#125;'</span>.format(</span><br><span class="line">            form.username.data, form.remember_me.data))</span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">'/index'</span>)</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">'login.html'</span>, title=<span class="string">'Sign In'</span>, form=form)</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="6-sqlalchemy-exc-InvalidRequestError-Table-‘user’-is-already-defined-for-this-MetaData-instance-Specify-‘extend-existing-True’-to-redefine-options-and-columns-on-an-existing-Table-object"><a href="#6-sqlalchemy-exc-InvalidRequestError-Table-‘user’-is-already-defined-for-this-MetaData-instance-Specify-‘extend-existing-True’-to-redefine-options-and-columns-on-an-existing-Table-object" class="headerlink" title="6. sqlalchemy.exc.InvalidRequestError: Table ‘user’ is already defined for this MetaData instance.  Specify ‘extend_existing=True’ to redefine options and columns on an existing Table object."></a>6. sqlalchemy.exc.InvalidRequestError: Table ‘user’ is already defined for this MetaData instance.  Specify ‘extend_existing=True’ to redefine options and columns on an existing Table object.</h2><ul>
-<li>类型错误：无效请求</li>
-<li>排错思路：已为此MetaData实例定义表’user’。 指定’extend_existing = True’以重新定义现有Table对象上的选项和列。</li>
-<li>解决方法：在models.py删除多余创建user表的代码</li>
-</ul>
-<h2 id="7-AttributeError-‘NoneType’-object-has-no-attribute-‘id’"><a href="#7-AttributeError-‘NoneType’-object-has-no-attribute-‘id’" class="headerlink" title="7. AttributeError: ‘NoneType’ object has no attribute ‘id’."></a>7. AttributeError: ‘NoneType’ object has no attribute ‘id’.</h2><ul>
-<li>类型错误：属性错误，这是account下的注册函数出现的属性错误</li>
-<li>排错思路：’空类型’对象没有属性’id’。主要是在对应位置，找到’None’。File位置：”E:\Python\l2cloud-quote\app\account\models.py”, line 125, in modules。首先，打印。print(‘module’, module)、print(‘modules’, modules)，发现，仍然是module None， modules [None, None]；然后，继续找到对应的views.py，参看register，继续打印print(modules)，发现[None, None]，最后，找到对应的包含TYPE_REGISTERED的表，填入数据即可。</li>
-<li>解决方法：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">1</span>,<span class="string">'chat'</span>,<span class="string">'聊天'</span>,<span class="string">'main.home'</span>,<span class="number">0</span>,false);</span><br><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">2</span>,<span class="string">'account'</span>,<span class="string">'账户管理'</span>,<span class="string">'main.home'</span>,<span class="number">0</span>,false);</span><br><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">3</span>,<span class="string">'aws'</span>,<span class="string">'AWS平台管理'</span>,<span class="string">'main.home'</span>,<span class="number">0</span>,false);</span><br><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">4</span>,<span class="string">'cmdb'</span>,<span class="string">'资产管理'</span>,<span class="string">'main.home'</span>,<span class="number">3</span>,false);</span><br><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">5</span>,<span class="string">'billing'</span>,<span class="string">'账单管理'</span>,<span class="string">'main.home'</span>,<span class="number">3</span>,false);</span><br><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">6</span>,<span class="string">'test'</span>,<span class="string">'test'</span>,<span class="string">'main.home'</span>,<span class="number">0</span>,false);</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="9-TypeError-render-template-takes-1-positional-argument-but-2-were-given"><a href="#9-TypeError-render-template-takes-1-positional-argument-but-2-were-given" class="headerlink" title="9. TypeError: render_template() takes 1 positional argument but 2 were given"></a>9. TypeError: render_template() takes 1 positional argument but 2 were given</h2><ul>
-<li><p>类型错误：类型错误，name ‘posts’ is not defined</p>
-</li>
-<li><p>排错思路：render_template（）占用1个位置参数，但给出了2个</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> render_template(<span class="string">'index.html'</span>, <span class="string">'Home Page'</span>, posts=posts)</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解决方法：重新定义模板位置参数变量posts</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> render_template(<span class="string">'index.html'</span>, title=<span class="string">'Home Page'</span>, posts=posts)</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="10-werkzeug-exceptions-BadRequestKeyError"><a href="#10-werkzeug-exceptions-BadRequestKeyError" class="headerlink" title="10. werkzeug.exceptions.BadRequestKeyError"></a>10. werkzeug.exceptions.BadRequestKeyError</h2><p>werkzeug.exceptions.HTTPException.wrap.<locals>.newcls: 400 Bad Request: KeyError: ‘region’</locals></p>
-<ul>
-<li><p>类型错误：错误的请求，密钥错误。</p>
-</li>
-<li><p>排错思路：首次加载页面时，没有request.args字典，这就是收到密钥错误的原因。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request <span class="keyword">as</span> f_request</span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ec2_procing</span><span class="params">()</span>:</span></span><br><span class="line">    region = f_request.args[<span class="string">'region'</span>]</span><br><span class="line">    service = f_request.args[<span class="string">'service'</span>]</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解决方法：request.args该写为字典形式</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">region = f_request.args.get(<span class="string">'region'</span>)</span><br><span class="line">service = f_request.args.get(<span class="string">'service'</span>)</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h2 id="11-ValueError-urls-must-start-with-a-leading-slash"><a href="#11-ValueError-urls-must-start-with-a-leading-slash" class="headerlink" title="11. ValueError: urls must start with a leading slash"></a>11. ValueError: urls must start with a leading slash</h2><ul>
-<li><p>类型错误：值错误：网址必须以前导斜杠开头</p>
-</li>
-<li><p>排错思路：根据提示，进行修改</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('go_back/&lt;int:year&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">go_back</span><span class="params">(year)</span>:</span></span><br><span class="line">    <span class="comment"># return '&lt;p&gt;Welcome to %d!&lt;p&gt;' % (2018 - year)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;p&gt;Welcome to %d!&lt;p&gt;'</span> % <span class="number">2018</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>解决方法：request.args该写为字典形式</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/go_back/&lt;int:year&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">go_back</span><span class="params">(year)</span>:</span></span><br><span class="line">    <span class="comment"># return '&lt;p&gt;Welcome to %d!&lt;p&gt;' % (2018 - year)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;p&gt;Welcome to %d!&lt;p&gt;'</span> % <span class="number">2018</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-</li>
-</ul>
+<h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2><table>
+<thead>
+<tr>
+<th>Flask框架/库</th>
+<th>装饰器</th>
+<th>作用</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>flask框架</td>
+<td>@app.route(‘/‘)</td>
+<td>@app.route()装饰器将根地址/和某视图函数绑定，当用户访问URL时触发对应视图函数</td>
+<td>代码块1</td>
+</tr>
+<tr>
+<td>flask框架</td>
+<td>@app.cli.command()</td>
+<td>通过该装饰器，将创建的函数注册成flask命令。传入函数可设置命令名称</td>
+<td>代码块1</td>
+</tr>
+<tr>
+<td>flask_login</td>
+<td>@login_required/@app.before_first_request/@before_request……</td>
+<td>对请求进行预处理或后处理，使用Flask提供的请求钩子(Hook)。他们用来注册在请求处理的不同阶段执行的回调函数(Callback)。请求钩子用装饰器实现</td>
+<td>代码块1</td>
+</tr>
+</tbody></table>
 
                 
 
@@ -321,12 +249,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Python/Flask/JSON_Error汇总 /" data-toggle="tooltip" data-placement="top" title="内置数据结构-文件处理">&larr; Previous Post</a>
+                            <a href="/article/Python/Flask/flask模板/" data-toggle="tooltip" data-placement="top" title="flask学习笔记">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/Python/Flask/Flask_Error汇总/" data-toggle="tooltip" data-placement="top" title="flask学习笔记">Next Post &rarr;</a>
+                            <a href="/article/Python/Flask/JSON_Error汇总 /" data-toggle="tooltip" data-placement="top" title="内置数据结构-文件处理">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -367,7 +295,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Flask的Error汇总"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Flask的Error汇总</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-redis-exceptions-ResponseError-Client-sent-AUTH-but-no-password-is-set"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. redis.exceptions.ResponseError: Client sent AUTH, but no password is set</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-‘SQLALCHEMY-TRACK-MODIFICATIONS-adds-significant-overhead-and-‘等error"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. ‘SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and ‘等error.</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-RecursionError-maximum-recursion-depth-exceeded-in-comparison"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3. RecursionError: maximum recursion depth exceeded in comparison</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-jinja2-exceptions-TemplateNotFound-jinja2-exceptions-TemplateNotFound-index"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">4. jinja2.exceptions.TemplateNotFound jinja2.exceptions.TemplateNotFound: /index</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-Method-Not-Allowed"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">5. Method Not Allowed</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-sqlalchemy-exc-InvalidRequestError-Table-‘user’-is-already-defined-for-this-MetaData-instance-Specify-‘extend-existing-True’-to-redefine-options-and-columns-on-an-existing-Table-object"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">6. sqlalchemy.exc.InvalidRequestError: Table ‘user’ is already defined for this MetaData instance.  Specify ‘extend_existing=True’ to redefine options and columns on an existing Table object.</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-AttributeError-‘NoneType’-object-has-no-attribute-‘id’"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">7. AttributeError: ‘NoneType’ object has no attribute ‘id’.</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#9-TypeError-render-template-takes-1-positional-argument-but-2-were-given"><span class="toc-nav-number">1.8.</span> <span class="toc-nav-text">9. TypeError: render_template() takes 1 positional argument but 2 were given</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#10-werkzeug-exceptions-BadRequestKeyError"><span class="toc-nav-number">1.9.</span> <span class="toc-nav-text">10. werkzeug.exceptions.BadRequestKeyError</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#11-ValueError-urls-must-start-with-a-leading-slash"><span class="toc-nav-number">1.10.</span> <span class="toc-nav-text">11. ValueError: urls must start with a leading slash</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Flask的Error汇总"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Flask的Error汇总</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1.</span></a></li></ol></li></ol>
         
         </div>
       </aside>
