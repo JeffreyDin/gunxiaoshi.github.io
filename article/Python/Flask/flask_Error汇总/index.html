@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Every failure is leading towards success.">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          flask学习笔记 - gunxiaoshi | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://gunxiaoshi.me/article/Python/Flask/flask_Error汇总/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/Flask-vs-Django.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                            
+                              <a class="tag" href="/tags/#Flask" title="Flask">Flask</a>
+                            
+                        </div>
+                        <h1>flask学习笔记</h1>
+                        <h2 class="subheading">11. Flask_Error汇总</h2>
+                        <span class="meta">
+                            Posted by gunxiaoshi on
+                            2018-12-14
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">gunxiaoshi</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Flask的Error汇总"><a href="#Flask的Error汇总" class="headerlink" title="Flask的Error汇总"></a>Flask的Error汇总</h1><p><strong>本文档主要记录了Flask1.0.3某项目运行在Windows10中遇到的一系列Error等。</strong></p>
+<h2 id="1-redis-exceptions-ResponseError-Client-sent-AUTH-but-no-password-is-set"><a href="#1-redis-exceptions-ResponseError-Client-sent-AUTH-but-no-password-is-set" class="headerlink" title="1. redis.exceptions.ResponseError: Client sent AUTH, but no password is set"></a>1. redis.exceptions.ResponseError: Client sent AUTH, but no password is set</h2><ul>
+<li>类型错误：配置错误</li>
+<li>排错思路：本来已经在redis配置文件中设置了密码，但是仍然提示but no password is set，说明配置没有生效。然后就想到启动redis-server，可能没有指定到对应的配置文件中。 当然， 没有设置密码的，设置下密码就行。</li>
+<li>解决方法：找到redis-server 指定的配置文件/usr/local/redis-5.0.5/redis.conf或/etc/redis/6379.conf(新增，已经设置了开机启动)，然后指定到/etc/redis/6379.conf就行。</li>
+</ul>
+<h2 id="2-‘SQLALCHEMY-TRACK-MODIFICATIONS-adds-significant-overhead-and-‘等error"><a href="#2-‘SQLALCHEMY-TRACK-MODIFICATIONS-adds-significant-overhead-and-‘等error" class="headerlink" title="2. ‘SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and ‘等error."></a>2. ‘SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and ‘等error.</h2><ul>
+<li>类型错误：配置错误</li>
+<li>排错思路：该配合的基本都配置完成了，为什么还有相关error? 其实，调用代码是有序的，首先是指定数据库的链接地址，然后关闭数据库追踪（SQLALCHEMY_TRACK_MODIFICATIONS = False），她用于设置数据发生变更之后是否发送信号给应用，缺省为Ture。最后对数据库实例初始化。 创建一个SQLAlchemy实例，db对象来表示数据库。需要放在config后面，数据库在应用的表现形式是一个数据库实例，将会在应用实例化之后进行实例化和注册操作。</li>
+<li>解决方法：<ul>
+<li>第一种示例：<ul>
+<li>指定使用的数据库的链接地址<ul>
+<li>app.config[“SQLALCHEMY_DATABASE_URI”] = “mysql://root:<a href="mailto:mysql@127.0.0.1" target="_blank" rel="noopener">mysql@127.0.0.1</a>:3306/test8”</li>
+</ul>
+</li>
+<li>关闭追踪数据库的追踪特性<ul>
+<li>app.config[“SQLALCHEMY_TRACK_MODIFICATIONS”] = False</li>
+</ul>
+</li>
+<li>创建一个SQLAlchemy对象,需要放在config后面<ul>
+<li>db = SQLAlchemy(app)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>第二种示例：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># config.py</span></span><br><span class="line">SQLALCHEMY_DATABASE_URI = <span class="string">"postgresql://&#123;DB_USER&#125;:&#123;DB_PASS&#125;@&#123;DB_ADDR&#125;:&#123;DB_POST&#125;/&#123;DB_NAME&#125;"</span>.format(DB_USER=pg_db_username,</span><br><span class="line">         DB_PASS=pg_db_password,                                                            DB_ADDR=pg_db_hostname,</span><br><span class="line">         DB_POST=pg_db_post,</span><br><span class="line">         DB_NAME=pg_db_name)</span><br><span class="line">SQLALCHEMY_TRACK_MODIFICATIONS = <span class="keyword">False</span></span><br><span class="line"><span class="comment"># __init__.py</span></span><br><span class="line">db = SQLAlchemy()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-RecursionError-maximum-recursion-depth-exceeded-in-comparison"><a href="#3-RecursionError-maximum-recursion-depth-exceeded-in-comparison" class="headerlink" title="3. RecursionError: maximum recursion depth exceeded in comparison"></a>3. RecursionError: maximum recursion depth exceeded in comparison</h2><ul>
+<li>类型错误：递归错误，这在Flask中，一般是表单模板写错了</li>
+<li>排错思路：根据表单和视图去修改表单模板</li>
+<li>解决方法：根据表单和视图去修改表单模板</li>
+</ul>
+<h2 id="4-jinja2-exceptions-TemplateNotFound-jinja2-exceptions-TemplateNotFound-index"><a href="#4-jinja2-exceptions-TemplateNotFound-jinja2-exceptions-TemplateNotFound-index" class="headerlink" title="4. jinja2.exceptions.TemplateNotFound jinja2.exceptions.TemplateNotFound: /index"></a>4. jinja2.exceptions.TemplateNotFound jinja2.exceptions.TemplateNotFound: /index</h2><ul>
+<li>类型错误：找不到模板</li>
+<li>排错思路：针对我个人出现的问题是其他模板调用基本模板时，由于结构缺失爆发Error</li>
+<li>解决方法：<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;% extends "base.html" %&#125;</span><br><span class="line"></span><br><span class="line">&#123;% block content %&#125;</span><br><span class="line">……</span><br><span class="line">&#123;% endblock %&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="5-Method-Not-Allowed"><a href="#5-Method-Not-Allowed" class="headerlink" title="5. Method Not Allowed"></a>5. Method Not Allowed</h2><ul>
+<li>类型错误：参数错误，The method is not allowed for the requested URL.请求的URL不允许使用该方法。</li>
+<li>排错思路：视图功能缺失，没有逻辑来处理用户提交的数据。视图函数没有指定methods参数， 它告诉Flask这个视图函数接受GET和POST请求，并覆盖了默认的GET。</li>
+<li>解决方法：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/login', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">login</span><span class="params">()</span>:</span></span><br><span class="line">    form = LoginForm()</span><br><span class="line">    <span class="keyword">if</span> form.validate_on_submit():</span><br><span class="line">        flash(<span class="string">'Login requested for user &#123;&#125;, remember_me=&#123;&#125;'</span>.format(</span><br><span class="line">            form.username.data, form.remember_me.data))</span><br><span class="line">        <span class="keyword">return</span> redirect(<span class="string">'/index'</span>)</span><br><span class="line">    <span class="keyword">return</span> render_template(<span class="string">'login.html'</span>, title=<span class="string">'Sign In'</span>, form=form)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="6-sqlalchemy-exc-InvalidRequestError-Table-‘user’-is-already-defined-for-this-MetaData-instance-Specify-‘extend-existing-True’-to-redefine-options-and-columns-on-an-existing-Table-object"><a href="#6-sqlalchemy-exc-InvalidRequestError-Table-‘user’-is-already-defined-for-this-MetaData-instance-Specify-‘extend-existing-True’-to-redefine-options-and-columns-on-an-existing-Table-object" class="headerlink" title="6. sqlalchemy.exc.InvalidRequestError: Table ‘user’ is already defined for this MetaData instance.  Specify ‘extend_existing=True’ to redefine options and columns on an existing Table object."></a>6. sqlalchemy.exc.InvalidRequestError: Table ‘user’ is already defined for this MetaData instance.  Specify ‘extend_existing=True’ to redefine options and columns on an existing Table object.</h2><ul>
+<li>类型错误：无效请求</li>
+<li>排错思路：已为此MetaData实例定义表’user’。 指定’extend_existing = True’以重新定义现有Table对象上的选项和列。</li>
+<li>解决方法：在models.py删除多余创建user表的代码</li>
+</ul>
+<h2 id="7-AttributeError-‘NoneType’-object-has-no-attribute-‘id’"><a href="#7-AttributeError-‘NoneType’-object-has-no-attribute-‘id’" class="headerlink" title="7. AttributeError: ‘NoneType’ object has no attribute ‘id’."></a>7. AttributeError: ‘NoneType’ object has no attribute ‘id’.</h2><ul>
+<li>类型错误：属性错误，这是account下的注册函数出现的属性错误</li>
+<li>排错思路：’空类型’对象没有属性’id’。主要是在对应位置，找到’None’。File位置：”E:\Python\l2cloud-quote\app\account\models.py”, line 125, in modules。首先，打印。print(‘module’, module)、print(‘modules’, modules)，发现，仍然是module None， modules [None, None]；然后，继续找到对应的views.py，参看register，继续打印print(modules)，发现[None, None]，最后，找到对应的包含TYPE_REGISTERED的表，填入数据即可。</li>
+<li>解决方法：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">1</span>,<span class="string">'chat'</span>,<span class="string">'聊天'</span>,<span class="string">'main.home'</span>,<span class="number">0</span>,false);</span><br><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">2</span>,<span class="string">'account'</span>,<span class="string">'账户管理'</span>,<span class="string">'main.home'</span>,<span class="number">0</span>,false);</span><br><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">3</span>,<span class="string">'aws'</span>,<span class="string">'AWS平台管理'</span>,<span class="string">'main.home'</span>,<span class="number">0</span>,false);</span><br><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">4</span>,<span class="string">'cmdb'</span>,<span class="string">'资产管理'</span>,<span class="string">'main.home'</span>,<span class="number">3</span>,false);</span><br><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">5</span>,<span class="string">'billing'</span>,<span class="string">'账单管理'</span>,<span class="string">'main.home'</span>,<span class="number">3</span>,false);</span><br><span class="line">INSERT INTO module (id,name,name_menu_display,module_home_url_name,father_module_id,visibility) VALUES(<span class="number">6</span>,<span class="string">'test'</span>,<span class="string">'test'</span>,<span class="string">'main.home'</span>,<span class="number">0</span>,false);</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="9-TypeError-render-template-takes-1-positional-argument-but-2-were-given"><a href="#9-TypeError-render-template-takes-1-positional-argument-but-2-were-given" class="headerlink" title="9. TypeError: render_template() takes 1 positional argument but 2 were given"></a>9. TypeError: render_template() takes 1 positional argument but 2 were given</h2><ul>
+<li><p>类型错误：类型错误，name ‘posts’ is not defined</p>
+</li>
+<li><p>排错思路：render_template（）占用1个位置参数，但给出了2个</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> render_template(<span class="string">'index.html'</span>, <span class="string">'Home Page'</span>, posts=posts)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解决方法：重新定义模板位置参数变量posts</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> render_template(<span class="string">'index.html'</span>, title=<span class="string">'Home Page'</span>, posts=posts)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="10-werkzeug-exceptions-BadRequestKeyError"><a href="#10-werkzeug-exceptions-BadRequestKeyError" class="headerlink" title="10. werkzeug.exceptions.BadRequestKeyError"></a>10. werkzeug.exceptions.BadRequestKeyError</h2><p>werkzeug.exceptions.HTTPException.wrap.<locals>.newcls: 400 Bad Request: KeyError: ‘region’</locals></p>
+<ul>
+<li><p>类型错误：错误的请求，密钥错误。</p>
+</li>
+<li><p>排错思路：首次加载页面时，没有request.args字典，这就是收到密钥错误的原因。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request <span class="keyword">as</span> f_request</span><br><span class="line"><span class="meta">@app.route('/')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">ec2_procing</span><span class="params">()</span>:</span></span><br><span class="line">    region = f_request.args[<span class="string">'region'</span>]</span><br><span class="line">    service = f_request.args[<span class="string">'service'</span>]</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解决方法：request.args该写为字典形式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">region = f_request.args.get(<span class="string">'region'</span>)</span><br><span class="line">service = f_request.args.get(<span class="string">'service'</span>)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h2 id="11-ValueError-urls-must-start-with-a-leading-slash"><a href="#11-ValueError-urls-must-start-with-a-leading-slash" class="headerlink" title="11. ValueError: urls must start with a leading slash"></a>11. ValueError: urls must start with a leading slash</h2><ul>
+<li><p>类型错误：值错误：网址必须以前导斜杠开头</p>
+</li>
+<li><p>排错思路：根据提示，进行修改</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('go_back/&lt;int:year&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">go_back</span><span class="params">(year)</span>:</span></span><br><span class="line">    <span class="comment"># return '&lt;p&gt;Welcome to %d!&lt;p&gt;' % (2018 - year)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;p&gt;Welcome to %d!&lt;p&gt;'</span> % <span class="number">2018</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>解决方法：request.args该写为字典形式</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@app.route('/go_back/&lt;int:year&gt;')</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">go_back</span><span class="params">(year)</span>:</span></span><br><span class="line">    <span class="comment"># return '&lt;p&gt;Welcome to %d!&lt;p&gt;' % (2018 - year)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;p&gt;Welcome to %d!&lt;p&gt;'</span> % <span class="number">2018</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+</li>
+</ul>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Python/Flask/flask_装饰器汇总/" data-toggle="tooltip" data-placement="top" title="flask学习笔记">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Python/Django/Django_Error汇总/" data-toggle="tooltip" data-placement="top" title="Django学习笔记">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Flask的Error汇总"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Flask的Error汇总</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-redis-exceptions-ResponseError-Client-sent-AUTH-but-no-password-is-set"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. redis.exceptions.ResponseError: Client sent AUTH, but no password is set</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-‘SQLALCHEMY-TRACK-MODIFICATIONS-adds-significant-overhead-and-‘等error"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. ‘SQLALCHEMY_TRACK_MODIFICATIONS adds significant overhead and ‘等error.</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-RecursionError-maximum-recursion-depth-exceeded-in-comparison"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3. RecursionError: maximum recursion depth exceeded in comparison</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-jinja2-exceptions-TemplateNotFound-jinja2-exceptions-TemplateNotFound-index"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">4. jinja2.exceptions.TemplateNotFound jinja2.exceptions.TemplateNotFound: /index</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-Method-Not-Allowed"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">5. Method Not Allowed</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-sqlalchemy-exc-InvalidRequestError-Table-‘user’-is-already-defined-for-this-MetaData-instance-Specify-‘extend-existing-True’-to-redefine-options-and-columns-on-an-existing-Table-object"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">6. sqlalchemy.exc.InvalidRequestError: Table ‘user’ is already defined for this MetaData instance.  Specify ‘extend_existing=True’ to redefine options and columns on an existing Table object.</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-AttributeError-‘NoneType’-object-has-no-attribute-‘id’"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">7. AttributeError: ‘NoneType’ object has no attribute ‘id’.</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#9-TypeError-render-template-takes-1-positional-argument-but-2-were-given"><span class="toc-nav-number">1.8.</span> <span class="toc-nav-text">9. TypeError: render_template() takes 1 positional argument but 2 were given</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#10-werkzeug-exceptions-BadRequestKeyError"><span class="toc-nav-number">1.9.</span> <span class="toc-nav-text">10. werkzeug.exceptions.BadRequestKeyError</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#11-ValueError-urls-must-start-with-a-leading-slash"><span class="toc-nav-number">1.10.</span> <span class="toc-nav-text">11. ValueError: urls must start with a leading slash</span></a></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                          <a class="tag" href="/tags/#Flask" title="Flask">Flask</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://docs.amazonaws.cn/index.html#lang/zh_cn" target="_blank">AWS</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/gunxiaoshi/" target="_blank">博客园</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/abe128c859a6" target="_blank">简书</a></li>
+                    
+                        <li><a href="" target="_blank">DockOne</a></li>
+                    
+                        <li><a href="" target="_blank">阿里云栖社区 </a></li>
+                    
+                        <li><a href="http://blog.51cto.com/13291215" target="_blank">51CTO博客 </a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; gunxiaoshi 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    change by <a href="http://www.gunxiaoshi.me">gunxiaoshi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://gunxiaoshi.me/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://gunxiaoshi.me/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

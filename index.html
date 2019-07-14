@@ -132,14 +132,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -209,16 +209,18 @@
 
 <div class="post-preview">
 
-    <a href="/article/Python/Flask/flask模板/">
+    <a href="/article/Python/Flask/JSON_Error汇总 /">
         <h2 class="post-title">
-            flask学习笔记
+            内置数据结构-文件处理
         </h2>
         <h3 class="post-subtitle">
-            2. flask模板
+            1. 处理JSON格式的文件
         </h3>
         <div class="post-content-preview">
-            Flask学习学习Miguel Grinberg的2017年新版The Flask Mega-Tutorial教程中遇到的问题，加以记录。Miguel Grinberg的blog（Flask部分）：The Flask Mega-Tutorial（December 6 2017） 点我刷新
-Flask模板继承解决前端页面中相同模块同步、重复写的问题，Jinja2模板继承特性，将所有模板中相同的......
+            JSON的Error汇总本文档主要记录了处理JSON文件一系列Error等。
+1. json.decoder.JSONDecodeError: Expecting value: line 27290 column 3 (char 1035661)
+类型错误：JSON解码错误
+排错思路：1. 最大的可能就是原来的大JSON文件格式出现错误，比如原JSON正确的格式为： {“a”:”1”,”b”......
         </div>
     </a>
     
@@ -230,94 +232,7 @@ Flask模板继承解决前端页面中相同模块同步、重复写的问题，
             
               <a href="/tags/#Python" title="Python">Python</a>
             
-              <a href="/tags/#Flask" title="Flask">Flask</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/Python/Django/Django_Error汇总/">
-        <h2 class="post-title">
-            Django学习笔记
-        </h2>
-        <h3 class="post-subtitle">
-            11. Django_Error汇总
-        </h3>
-        <div class="post-content-preview">
-            Django的Error汇总本文档主要记录了Django 2.2某项目运行在Windows10中遇到的一系列Error等。
-1. NameError: name ‘include’ is not defined
-名称错误，没有定义‘include’
-排错思路：一般是没有导入相关方法。
-解决方法：在urls.py中导入from django.conf.urls import include
-
-......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by gunxiaoshi on
-            2018-12-14
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Python" title="Python">Python</a>
-            
-              <a href="/tags/#Django" title="Django">Django</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/Python/Django/Django逻辑关系/">
-        <h2 class="post-title">
-            Django学习笔记
-        </h2>
-        <h3 class="post-subtitle">
-            1. Django逻辑关系
-        </h3>
-        <div class="post-content-preview">
-            Django逻辑关系本文档主要基于Django2.2官方文档，学习并记录Django框架主要逻辑关系。
-1. 目录结果
-mysite/
-manage.py
-mysite/
-init.py
-settings.py
-urls.py
-wsgi.py
-
-
-polls/
-init.py
-admin.py
-apps.py
-migrations/
-init.py
-
-
-models.py
-tests.py
-......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by gunxiaoshi on
-            2018-12-14
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Python" title="Python">Python</a>
-            
-              <a href="/tags/#Django" title="Django">Django</a>
+              <a href="/tags/#JSON" title="JSON">JSON</a>
             
         </div>
     
@@ -431,7 +346,38 @@ HTML表单是用户和web站点或应用程序之间交互的主要内容之一�
 
 <div class="post-preview">
 
-    <a href="/article/Python/Flask/Flask_装饰器汇总/">
+    <a href="/article/Python/Flask/flask模板/">
+        <h2 class="post-title">
+            flask学习笔记
+        </h2>
+        <h3 class="post-subtitle">
+            2. flask模板
+        </h3>
+        <div class="post-content-preview">
+            Flask学习学习Miguel Grinberg的2017年新版The Flask Mega-Tutorial教程中遇到的问题，加以记录。Miguel Grinberg的blog（Flask部分）：The Flask Mega-Tutorial（December 6 2017） 点我刷新
+Flask模板继承解决前端页面中相同模块同步、重复写的问题，Jinja2模板继承特性，将所有模板中相同的......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by gunxiaoshi on
+            2018-12-14
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Python" title="Python">Python</a>
+            
+              <a href="/tags/#Flask" title="Flask">Flask</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Python/Flask/flask_装饰器汇总/">
         <h2 class="post-title">
             flask学习笔记
         </h2>
@@ -480,18 +426,18 @@ flask框架
 
 <div class="post-preview">
 
-    <a href="/article/Python/Flask/JSON_Error汇总 /">
+    <a href="/article/Python/Flask/flask_Error汇总/">
         <h2 class="post-title">
-            内置数据结构-文件处理
+            flask学习笔记
         </h2>
         <h3 class="post-subtitle">
-            1. 处理JSON格式的文件
+            11. Flask_Error汇总
         </h3>
         <div class="post-content-preview">
-            JSON的Error汇总本文档主要记录了处理JSON文件一系列Error等。
-1. json.decoder.JSONDecodeError: Expecting value: line 27290 column 3 (char 1035661)
-类型错误：JSON解码错误
-排错思路：1. 最大的可能就是原来的大JSON文件格式出现错误，比如原JSON正确的格式为： {“a”:”1”,”b”......
+            Flask的Error汇总本文档主要记录了Flask1.0.3某项目运行在Windows10中遇到的一系列Error等。
+1. redis.exceptions.ResponseError: Client sent AUTH, but no password is set
+类型错误：配置错误
+排错思路：本来已经在redis配置文件中设置了密码，但是仍然提示but no password is......
         </div>
     </a>
     
@@ -503,7 +449,7 @@ flask框架
             
               <a href="/tags/#Python" title="Python">Python</a>
             
-              <a href="/tags/#JSON" title="JSON">JSON</a>
+              <a href="/tags/#Flask" title="Flask">Flask</a>
             
         </div>
     
@@ -513,58 +459,84 @@ flask框架
 
 <div class="post-preview">
 
-    <a href="/article/Python/Python之正则库 re_findall 函数/">
+    <a href="/article/Python/Django/Django_Error汇总/">
         <h2 class="post-title">
-            Python
+            Django学习笔记
         </h2>
         <h3 class="post-subtitle">
-            1.re模块findall函数用法
+            11. Django_Error汇总
         </h3>
         <div class="post-content-preview">
-            Python re 模块 findall 函数用法简述本文档介绍了正则表达式元字符 和 re模块 findall 函数用法。
-正则表达式元字符给予正则表达式强大的功能和灵活性。
+            Django的Error汇总本文档主要记录了Django 2.2某项目运行在Windows10中遇到的一系列Error等。
+1. NameError: name ‘include’ is not defined
+名称错误，没有定义‘include’
+排错思路：一般是没有导入相关方法。
+解决方法：在urls.py中导入from django.conf.urls import include
 
-
-
-表 示 法
-描述
-正则表达式示例
-
-
-
-符号
-
-
-
-
-literal
-匹配文本字符串的字面值literal
-foo
-
-
-.
-匹配任何字符（除了\n 之外）
-b.b
-
-
-^
-匹配字符串起始部分
-^Dear
-
-
-$......
+......
         </div>
     </a>
     
         <p class="post-meta" style="margin: 10px 0;">
             Posted by gunxiaoshi on
-            2018-12-13
+            2018-12-14
         </p>
         <div class="tags">
             
               <a href="/tags/#Python" title="Python">Python</a>
             
-              <a href="/tags/#正则表达式" title="正则表达式">正则表达式</a>
+              <a href="/tags/#Django" title="Django">Django</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
+    <a href="/article/Python/Django/Django逻辑关系/">
+        <h2 class="post-title">
+            Django学习笔记
+        </h2>
+        <h3 class="post-subtitle">
+            1. Django逻辑关系
+        </h3>
+        <div class="post-content-preview">
+            Django逻辑关系本文档主要基于Django2.2官方文档，学习并记录Django框架主要逻辑关系。
+1. 目录结果
+mysite/
+manage.py
+mysite/
+init.py
+settings.py
+urls.py
+wsgi.py
+
+
+polls/
+init.py
+admin.py
+apps.py
+migrations/
+init.py
+
+
+models.py
+tests.py
+......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by gunxiaoshi on
+            2018-12-14
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Python" title="Python">Python</a>
+            
+              <a href="/tags/#Django" title="Django">Django</a>
             
         </div>
     
@@ -650,7 +622,7 @@ h1级标题h2级标题h3级标题h4级标题h5级标题h6级标题分割线：�
             
         
             
-            <a href="/tags/#Python" title="Python" rel="10">Python</a>
+            <a href="/tags/#Python" title="Python" rel="11">Python</a>
             
         
             
@@ -660,19 +632,19 @@ h1级标题h2级标题h3级标题h4级标题h5级标题h6级标题分割线：�
             
         
             
+        
+            
             <a href="/tags/#VPN" title="VPN" rel="2">VPN</a>
             
         
             
         
             
-            <a href="/tags/#Flask" title="Flask" rel="4">Flask</a>
-            
-        
-            
             <a href="/tags/#Django" title="Django" rel="2">Django</a>
             
         
+            
+            <a href="/tags/#Flask" title="Flask" rel="5">Flask</a>
             
         
             
@@ -761,15 +733,7 @@ h1级标题h2级标题h3级标题h4级标题h5级标题h6级标题分割线：�
     <ul>
       
         <li>
-          <a href="/article/Python/Flask/flask模板/">flask学习笔记</a>
-        </li>
-      
-        <li>
-          <a href="/article/Python/Django/Django_Error汇总/">Django学习笔记</a>
-        </li>
-      
-        <li>
-          <a href="/article/Python/Django/Django逻辑关系/">Django学习笔记</a>
+          <a href="/article/Python/Flask/JSON_Error汇总 /">内置数据结构-文件处理</a>
         </li>
       
         <li>
@@ -778,6 +742,14 @@ h1级标题h2级标题h3级标题h4级标题h5级标题h6级标题分割线：�
       
         <li>
           <a href="/article/Python/Flask/flaskWeb表单/">flask学习笔记</a>
+        </li>
+      
+        <li>
+          <a href="/article/Python/GIt/Git_error/">Git</a>
+        </li>
+      
+        <li>
+          <a href="/article/Python/Flask/flask模板/">flask学习笔记</a>
         </li>
       
     </ul>
@@ -810,7 +782,7 @@ h1级标题h2级标题h3级标题h4级标题h5级标题h6级标题分割线：�
         
     <h5>ARCHIVES</h5>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">11</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">十二月 2018</a><span class="archive-list-count">12</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">九月 2018</a><span class="archive-list-count">7</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a><span class="archive-list-count">1</span></li></ul>
     </div>
 
         <hr>
