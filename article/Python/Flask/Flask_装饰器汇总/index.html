@@ -212,8 +212,8 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="Flask的Error汇总"><a href="#Flask的Error汇总" class="headerlink" title="Flask的Error汇总"></a>Flask的Error汇总</h1><p><strong>本文档主要记录了Flask1.0.3某项目运行在Windows10中遇到的一系列Error等。</strong></p>
-<h2 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h2><table>
+                <h1 id="Flask的装饰器汇总"><a href="#Flask的装饰器汇总" class="headerlink" title="Flask的装饰器汇总"></a>Flask的装饰器汇总</h1><p><strong>本文档主要记录了Flask1.0.3某项目运行在Windows10中遇到的一系列装饰器。</strong></p>
+<h2 id="1-Flask的装饰器"><a href="#1-Flask的装饰器" class="headerlink" title="1. Flask的装饰器"></a>1. Flask的装饰器</h2><table>
 <thead>
 <tr>
 <th>Flask框架/库</th>
@@ -244,7 +244,7 @@
 <td>flask_login</td>
 <td>@app.endpoint(‘index’)</td>
 <td>端点装饰器。想要使用 werkzeug 路由系统，以便于获得更强的灵活性时，需要和 Rule 中定义的一样，把端点映射到视图函数。需要用的装饰器。</td>
-<td></td>
+<td>代码块1</td>
 </tr>
 <tr>
 <td>flask_login</td>
@@ -262,37 +262,37 @@
 <td>flask框架</td>
 <td>@app.before_first_request/@before_request……</td>
 <td>对请求进行预处理或后处理，使用Flask提供的请求钩子(Hook)。他们用来注册在请求处理的不同阶段执行的回调函数(Callback)。请求钩子用装饰器实现</td>
-<td>检查登录装饰器。代码块1</td>
+<td>代码块1</td>
 </tr>
 <tr>
 <td>flask框架</td>
 <td>@app.context_processor</td>
-<td>自定义上下文。用来注册模板上下文处理函数，帮助完成统一传入变量的工作</td>
-<td></td>
+<td>自定义上下文。用来注册模板上下文处理函数，帮助完成统一传入变量的工作。</td>
+<td>代码块1</td>
 </tr>
 <tr>
 <td>flask框架</td>
 <td>@app.template_global()</td>
 <td>自定义全局函数。直接将函数注册为全区函数</td>
-<td></td>
+<td>代码块1</td>
 </tr>
 <tr>
 <td>flask框架</td>
 <td>@app.template_filter()</td>
 <td>自定义过滤器。注册自定义过滤器。</td>
-<td></td>
+<td>代码块1</td>
 </tr>
 <tr>
 <td>flask框架</td>
 <td>@app.template_test()</td>
 <td>自定义测试器。注册自定义测试器。传入函数对象和可选的自定义名称。</td>
-<td></td>
+<td>代码块1</td>
 </tr>
 <tr>
 <td>flask框架</td>
 <td>@app.errorhandler(404)</td>
-<td>自定义错误页面。错误处理函数，返回值将会作为响应的主体。错误处理函数附加@app.errorhandler() 装饰器</td>
-<td></td>
+<td>自定义错误页面。错误处理函数，返回值将会作为响应的主体。错误处理函数附加@app.errorhandler() 装饰器。</td>
+<td>代码块1</td>
 </tr>
 </tbody></table>
 
@@ -303,7 +303,7 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Python/Flask/flask模板/" data-toggle="tooltip" data-placement="top" title="flask学习笔记">&larr; Previous Post</a>
+                            <a href="/article/Python/GIt/Git_error/" data-toggle="tooltip" data-placement="top" title="Git">&larr; Previous Post</a>
                         </li>
                     
                     
@@ -349,7 +349,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Flask的Error汇总"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Flask的Error汇总</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1.</span></a></li></ol></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Flask的装饰器汇总"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Flask的装饰器汇总</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-Flask的装饰器"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. Flask的装饰器</span></a></li></ol></li></ol>
         
         </div>
       </aside>
