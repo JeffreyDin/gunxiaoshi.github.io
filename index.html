@@ -132,14 +132,14 @@
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
@@ -209,35 +209,20 @@
 
 <div class="post-preview">
 
-    <a href="/article/Python/Django/Django逻辑关系/">
+    <a href="/article/Python/Django/Django_Error汇总/">
         <h2 class="post-title">
             Django学习笔记
         </h2>
         <h3 class="post-subtitle">
-            1. Django逻辑关系
+            11. Django_Error汇总
         </h3>
         <div class="post-content-preview">
-            Django逻辑关系本文档主要基于Django2.2官方文档，学习并记录Django框架主要逻辑关系。
-1. 目录结果
-mysite/
-manage.py
-mysite/
-init.py
-settings.py
-urls.py
-wsgi.py
+            Django的Error汇总本文档主要记录了Django 2.2某项目运行在Windows10中遇到的一系列Error等。
+1. NameError: name ‘include’ is not defined
+名称错误，没有定义‘include’
+排错思路：一般是没有导入相关方法。
+解决方法：在urls.py中导入from django.conf.urls import include
 
-
-polls/
-init.py
-admin.py
-apps.py
-migrations/
-init.py
-
-
-models.py
-tests.py
 ......
         </div>
     </a>
@@ -477,6 +462,57 @@ flask_login
 
 <div class="post-preview">
 
+    <a href="/article/Python/Django/Django逻辑关系/">
+        <h2 class="post-title">
+            Django学习笔记
+        </h2>
+        <h3 class="post-subtitle">
+            1. Django逻辑关系
+        </h3>
+        <div class="post-content-preview">
+            Django逻辑关系本文档主要基于Django2.2官方文档，学习并记录Django框架主要逻辑关系。
+1. 目录结果
+mysite/
+manage.py
+mysite/
+init.py
+settings.py
+urls.py
+wsgi.py
+
+
+polls/
+init.py
+admin.py
+apps.py
+migrations/
+init.py
+
+
+models.py
+tests.py
+......
+        </div>
+    </a>
+    
+        <p class="post-meta" style="margin: 10px 0;">
+            Posted by gunxiaoshi on
+            2018-12-14
+        </p>
+        <div class="tags">
+            
+              <a href="/tags/#Python" title="Python">Python</a>
+            
+              <a href="/tags/#Django" title="Django">Django</a>
+            
+        </div>
+    
+
+</div>
+<hr>
+
+<div class="post-preview">
+
     <a href="/article/Python/Flask/JSON_Error汇总 /">
         <h2 class="post-title">
             内置数据结构-文件处理
@@ -501,42 +537,6 @@ flask_login
               <a href="/tags/#Python" title="Python">Python</a>
             
               <a href="/tags/#JSON" title="JSON">JSON</a>
-            
-        </div>
-    
-
-</div>
-<hr>
-
-<div class="post-preview">
-
-    <a href="/article/Python/Django/Django_Error汇总/">
-        <h2 class="post-title">
-            Django学习笔记
-        </h2>
-        <h3 class="post-subtitle">
-            11. Django_Error汇总
-        </h3>
-        <div class="post-content-preview">
-            Django的Error汇总本文档主要记录了Django 2.2某项目运行在Windows10中遇到的一系列Error等。
-1. NameError: name ‘include’ is not defined
-名称错误，没有定义‘include’
-排错思路：一般是没有导入相关方法。
-解决方法：在urls.py中导入from django.conf.urls import include
-
-......
-        </div>
-    </a>
-    
-        <p class="post-meta" style="margin: 10px 0;">
-            Posted by gunxiaoshi on
-            2018-12-14
-        </p>
-        <div class="tags">
-            
-              <a href="/tags/#Python" title="Python">Python</a>
-            
-              <a href="/tags/#Django" title="Django">Django</a>
             
         </div>
     
@@ -733,7 +733,7 @@ h1级标题h2级标题h3级标题h4级标题h5级标题h6级标题分割线：�
     <ul>
       
         <li>
-          <a href="/article/Python/Django/Django逻辑关系/">Django学习笔记</a>
+          <a href="/article/Python/Django/Django_Error汇总/">Django学习笔记</a>
         </li>
       
         <li>
