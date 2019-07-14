@@ -2,13 +2,13 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Every failure is leading towards success.">
-    <meta name="keyword" content="">
+    <meta name="keyword" content>
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
@@ -76,7 +76,7 @@
     
 </style>
 
-<header class="intro-header">
+<header class="intro-header" >
     <!-- Signature -->
     <div id="signature">
         <div class="container">
@@ -222,8 +222,7 @@
 <th>正则表达式示例</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>符号</td>
 <td></td>
 <td></td>
@@ -349,9 +348,9 @@
 <td>(?:\w+.)*</td>
 </tr>
 <tr>
-<td>(?P\<name>…)</name></td>
+<td>(?P&lt;name&gt;…)</td>
 <td>像一个仅由 name 标识而不是数字 ID 标识的正则分组匹配</td>
-<td>(?P\<data>)</data></td>
+<td>(?P&lt;data&gt;)</td>
 </tr>
 <tr>
 <td>(?P=name)</td>
@@ -383,8 +382,7 @@
 <td>匹配条件是如果…不出现在之前的位置，而不使用输入字符串；称作负向后视断言</td>
 <td>(?&lt;!192\.168\.)</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <h2 id="使用到的特殊字符"><a href="#使用到的特殊字符" class="headerlink" title="使用到的特殊字符"></a>使用到的特殊字符</h2><table>
 <thead>
 <tr>
@@ -393,8 +391,7 @@
 <th>正则表达式示例</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td>特殊字符</td>
 <td></td>
 <td></td>
@@ -409,15 +406,19 @@
 <td>匹配任何空格字符，与[\n\t\r\v\f]相同（ \S 与之相反）</td>
 <td>of\sthe</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <h1 id="findall函数"><a href="#findall函数" class="headerlink" title="findall函数"></a>findall函数</h1><p>findall函数返回的总是正则表达式在字符串中所有匹配结果的列表，此处主要讨论列表中“结果”的展现方式，即findall中返回列表中每个元素包含的信息。</p>
 <h2 id="1-findall"><a href="#1-findall" class="headerlink" title="1. findall"></a>1. findall</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># findall</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">s = <span class="string">"456123sad 789re3dfheasdf a123fas 123awef q3segd a123dsas"</span></span><br><span class="line">re0subject1 = re.compile(<span class="string">'\w+\s+'</span>)</span><br><span class="line">print(re0subject1.findall(s))</span><br><span class="line">&gt; 执行结果：</span><br><span class="line">[<span class="string">'456123sad '</span>, <span class="string">'789re3dfheasdf '</span>, <span class="string">'a123fas '</span>, <span class="string">'123awef '</span>, <span class="string">'q3segd '</span>]</span><br></pre></td></tr></table></figure>
-<p>当给出的正则表达式中不带括号时，列表的元素为字符串，此字符串为整个正则表达式匹配的内容。<br>注意：此处出现的匹配是\w+\s+，最后一个字符串没有空格字符，所以没有匹配。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># findall</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">s = <span class="string">"456123sad  789re3dfheasdf  a123fas  123awef  q3segd  a123dsas "</span></span><br><span class="line">re0subject2 = re.compile(<span class="string">'\w+\s+'</span>)</span><br><span class="line">print(re0subject2.findall(s))</span><br><span class="line">&gt; 执行结果：</span><br><span class="line">[<span class="string">'456123sad  '</span>, <span class="string">'789re3dfheasdf  '</span>, <span class="string">'a123fas  '</span>, <span class="string">'123awef  '</span>, <span class="string">'q3segd  '</span>, <span class="string">'a123dsas '</span>]</span><br></pre></td></tr></table></figure></p>
+
+<p>当给出的正则表达式中不带括号时，列表的元素为字符串，此字符串为整个正则表达式匹配的内容。<br>注意：此处出现的匹配是\w+\s+，最后一个字符串没有空格字符，所以没有匹配。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># findall</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">s = <span class="string">"456123sad  789re3dfheasdf  a123fas  123awef  q3segd  a123dsas "</span></span><br><span class="line">re0subject2 = re.compile(<span class="string">'\w+\s+'</span>)</span><br><span class="line">print(re0subject2.findall(s))</span><br><span class="line">&gt; 执行结果：</span><br><span class="line">[<span class="string">'456123sad  '</span>, <span class="string">'789re3dfheasdf  '</span>, <span class="string">'a123fas  '</span>, <span class="string">'123awef  '</span>, <span class="string">'q3segd  '</span>, <span class="string">'a123dsas '</span>]</span><br></pre></td></tr></table></figure>
+
 <p>当给出的正则表达式中不带括号时，列表的元素为字符串，此字符串为整个正则表达式匹配的内容。</p>
 <h2 id="2-findall"><a href="#2-findall" class="headerlink" title="2. findall"></a>2. findall</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">s = <span class="string">"456123sad  789111re3dfheasdf  a123fas  123awef  q3segd  a123dsas "</span></span><br><span class="line"><span class="comment"># s = "adfad asdfasdf asdfas asdfawef asd adsfas "</span></span><br><span class="line">re0subject3 = re.compile(<span class="string">'(\w+)\s+\w+'</span>)</span><br><span class="line">print(re0subject3.findall(s))</span><br><span class="line">&gt; 执行结果：</span><br><span class="line">[<span class="string">'456123sad'</span>, <span class="string">'a123fas'</span>, <span class="string">'q3segd'</span>]</span><br></pre></td></tr></table></figure>
+
 <p>当给出的正则表达式中带有一个括号时，列表的元素为字符串，此字符串的内容与括号中的正则表达式相对应（不是整个正则表达式的匹配内容）。</p>
 <h2 id="3-findall"><a href="#3-findall" class="headerlink" title="3. findall"></a>3. findall</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line">s = <span class="string">"456123sad  789111re3dfheasdf  a123fas  123awef  q3segd  a123dsas "</span></span><br><span class="line"><span class="comment"># s = "adfad asdfasdf asdfas asdfawef asd adsfas "</span></span><br><span class="line">re0subject3 = re.compile(<span class="string">'((\w+)\s+\w+)'</span>)</span><br><span class="line">print(re0subject3.findall(s))</span><br><span class="line">&gt; 执行结果：</span><br><span class="line">[(<span class="string">'456123sad  789111re3dfheasdf'</span>, <span class="string">'456123sad'</span>), (<span class="string">'a123fas  123awef'</span>, <span class="string">'a123fas'</span>), (<span class="string">'q3segd  a123dsas'</span>, <span class="string">'q3segd'</span>)]</span><br></pre></td></tr></table></figure>
+
 <p>当给出的正则表达式中带有多个括号时，列表的元素为多个字符串组成的元组，元组中字符串个数与括号对数相同，字符串内容与每个括号内的正则表达式相对应，并且排放顺序是按括号出现的顺序。</p>
 
                 
@@ -427,7 +428,7 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Python/Machine-learning/Python之TensorFlow_Estimator/" data-toggle="tooltip" data-placement="top" title="Machine-learning">&larr; Previous Post</a>
+                            <a href="/article/Python/Flask/flask模板/" data-toggle="tooltip" data-placement="top" title="flask学习笔记">&larr; Previous Post</a>
                         </li>
                     
                     
@@ -605,7 +606,7 @@
 
                 
                     <li>
-                        <a target="_blank" href="https://github.com/gunxiaoshi">
+                        <a target="_blank"  href="https://github.com/gunxiaoshi">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -616,7 +617,7 @@
 
                 
                     <li>
-                        <a target="_blank" href="https://www.linkedin.com/in/gunxiaoshi">
+                        <a target="_blank"  href="https://www.linkedin.com/in/gunxiaoshi">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
@@ -634,7 +635,10 @@
                         <i class="fa fa-heart"></i>
                     </span> 
                     change by <a href="http://www.gunxiaoshi.me">gunxiaoshi</a> | 
-                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true">
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true" >
                     </iframe>
                 </p>
             </div>

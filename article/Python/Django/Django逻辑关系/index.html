@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Every failure is leading towards success.">
+    <meta name="keyword" content>
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          Django学习笔记 - gunxiaoshi | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://gunxiaoshi.me/article/Python/Django/Django逻辑关系/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/Flask-vs-Django.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                            
+                              <a class="tag" href="/tags/#Django" title="Django">Django</a>
+                            
+                        </div>
+                        <h1>Django学习笔记</h1>
+                        <h2 class="subheading">1. Django逻辑关系</h2>
+                        <span class="meta">
+                            Posted by gunxiaoshi on
+                            2018-12-14
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">gunxiaoshi</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="Django逻辑关系"><a href="#Django逻辑关系" class="headerlink" title="Django逻辑关系"></a>Django逻辑关系</h1><p><strong>本文档主要基于Django2.2<a href="https://docs.djangoproject.com/zh-hans/2.2/intro/tutorial01/" target="_blank" rel="noopener">官方文档</a>，学习并记录Django框架主要逻辑关系。</strong></p>
+<h2 id="1-目录结果"><a href="#1-目录结果" class="headerlink" title="1. 目录结果"></a>1. 目录结果</h2><ul>
+<li>mysite/<ul>
+<li>manage.py</li>
+<li>mysite/<ul>
+<li><strong>init</strong>.py</li>
+<li>settings.py</li>
+<li>urls.py</li>
+<li>wsgi.py</li>
+</ul>
+</li>
+<li>polls/<ul>
+<li><strong>init</strong>.py</li>
+<li>admin.py</li>
+<li>apps.py</li>
+<li>migrations/<ul>
+<li><strong>init</strong>.py</li>
+</ul>
+</li>
+<li>models.py</li>
+<li>tests.py</li>
+<li>urls.py</li>
+<li>views.py</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-逻辑关系"><a href="#2-逻辑关系" class="headerlink" title="2. 逻辑关系"></a>2. 逻辑关系</h2><h3 id="1-第一个视图"><a href="#1-第一个视图" class="headerlink" title="(1) 第一个视图"></a>(1) 第一个视图</h3><table>
+<thead>
+<tr>
+<th>应用视图</th>
+<th>应用 URLconf</th>
+<th>根 URLconf</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>polls/views.py</td>
+<td>polls/urls.py</td>
+<td>mysite/urls.py</td>
+<td>代码块1</td>
+</tr>
+</tbody></table>
+<h3 id="代码块1"><a href="#代码块1" class="headerlink" title="代码块1"></a>代码块1</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">代码块<span class="number">1</span>：</span><br><span class="line"><span class="comment"># polls/views.py</span></span><br><span class="line"><span class="keyword">from</span> django.http <span class="keyword">import</span> HttpResponse</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">index</span><span class="params">(request)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> HttpResponse(<span class="string">"Hello,word. You're at the polls index."</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># polls/urls.py</span></span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> . <span class="keyword">import</span> views</span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">''</span>, views.index, name=<span class="string">'index'</span>),</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="comment"># mysite/urls.py</span></span><br><span class="line"><span class="keyword">from</span> django.contrib <span class="keyword">import</span> admin</span><br><span class="line"><span class="keyword">from</span> django.urls <span class="keyword">import</span> path</span><br><span class="line"><span class="keyword">from</span> django.conf.urls <span class="keyword">import</span> include</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">urlpatterns = [</span><br><span class="line">    path(<span class="string">'polls/'</span>, include(<span class="string">'polls.urls'</span>)),</span><br><span class="line">    path(<span class="string">'admin/'</span>, admin.site.urls),</span><br><span class="line">]</span><br><span class="line"><span class="comment"># 访问</span></span><br><span class="line">http://localhost:<span class="number">8000</span>/polls/</span><br></pre></td></tr></table></figure>
+
+<h3 id="基本的请求和响应流程"><a href="#基本的请求和响应流程" class="headerlink" title="基本的请求和响应流程:"></a>基本的请求和响应流程:</h3><blockquote>
+<ol>
+<li>Django 响应一个请求时，从 urlpatterns 的第一项开始，按顺序依次匹配列表中的项，直到找到匹配的项。</li>
+<li>URLconf 在处理请求时，不匹配GET 和 POST 参数或域名，而是尝试匹配//<a href="http://www.example.com/myapp/中的myapp/。" target="_blank" rel="noopener">www.example.com/myapp/中的myapp/。</a></li>
+<li>Django 找到了一个匹配准则，用这个特定视图函数，传入一个HttpRequest对象作为第一个参数，被“捕获”的参数以关键字参数的形式传入。</li>
+</ol>
+</blockquote>
+<h3 id="2-第一个模型"><a href="#2-第一个模型" class="headerlink" title="(2) 第一个模型"></a>(2) 第一个模型</h3><ul>
+<li>我使用的是postgresql，并将postgresql安装在Centos 1804,，然后将pgAdmin 4 v4安装在自己的笔记本上。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>应用模型</th>
+<th>激活模型</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>polls/models.py</td>
+<td>mysite/settings.py</td>
+<td>代码块2</td>
+</tr>
+</tbody></table>
+<h3 id="代码块2"><a href="#代码块2" class="headerlink" title="代码块2"></a>代码块2</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">代码块<span class="number">1</span>：</span><br><span class="line"><span class="comment"># polls/models.py</span></span><br><span class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Question</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    question_test = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">    pub_date = models.DateField(<span class="string">'date published'</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Choice</span><span class="params">(models.Model)</span>:</span></span><br><span class="line">    question = models.ForeignKey(Question, on_delete=models.CASCADE)</span><br><span class="line">    choice_test = models.CharField(max_length=<span class="number">200</span>)</span><br><span class="line">    votes = models.IntegerField(default=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># mysite/settings.py</span></span><br><span class="line">INSTALLED_APPS = [</span><br><span class="line">    <span class="string">'polls.apps.PollsConfig'</span>,</span><br><span class="line">    ……</span><br><span class="line">]</span><br><span class="line"><span class="comment"># 配置postgresql</span></span><br><span class="line">DATABASES = &#123;</span><br><span class="line">    <span class="string">'default'</span>: &#123;</span><br><span class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.postgresql_psycopg2'</span>,</span><br><span class="line">        <span class="string">'HOST'</span>: <span class="string">'xxx.xxx.xxx.xxx'</span>,</span><br><span class="line">        <span class="string">'PORT'</span>: <span class="string">'5432'</span>,</span><br><span class="line">        <span class="string">'USER'</span>:<span class="string">'xxx'</span>,</span><br><span class="line">        <span class="string">'PASSWORD'</span>: <span class="string">'xxxxx'</span>,</span><br><span class="line">        <span class="string">'NAME'</span>: <span class="string">'xxxxx'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="基本的请求和响应流程-1"><a href="#基本的请求和响应流程-1" class="headerlink" title="基本的请求和响应流程:"></a>基本的请求和响应流程:</h3><blockquote>
+<ol>
+<li>在polls/models.py中创建新模型</li>
+<li>在mysite/setting.py的类 INSTALLED_APPS中添加点式路径。</li>
+<li>python manage.py makemigrations polls。检测对模型文件的修改（在这种情况下，已经取得了新的），并且把修改的部分储存为一次 迁移。</li>
+</ol>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">(Django-yj3Phk1A) (Django)  \beginmysite&gt; python manage.py makemigrations polls</span><br><span class="line">Migrations <span class="keyword">for</span> <span class="string">'polls'</span>:</span><br><span class="line">  polls\migrations\<span class="number">0001</span>_initial.py</span><br><span class="line">    - Create model Question</span><br><span class="line">    - Create model Choice</span><br><span class="line"></span><br><span class="line">(Django-yj3Phk1A) (Django)  \beginmysite&gt; python manage.py sqlmigrate polls <span class="number">0001</span></span><br><span class="line">BEGIN;</span><br><span class="line">--</span><br><span class="line">-- Create model Question</span><br><span class="line">--</span><br><span class="line">CREATE TABLE <span class="string">"polls_question"</span> (<span class="string">"id"</span> serial NOT NULL PRIMARY KEY, <span class="string">"question_test"</span> varchar(<span class="number">200</span>) NOT NULL, <span class="string">"pub_dat</span></span><br><span class="line"><span class="string">e"</span> date NOT NULL);</span><br><span class="line">--</span><br><span class="line">-- Create model Choice</span><br><span class="line">--</span><br><span class="line">CREATE TABLE <span class="string">"polls_choice"</span> (<span class="string">"id"</span> serial NOT NULL PRIMARY KEY, <span class="string">"choice_test"</span> varchar(<span class="number">200</span>) NOT NULL, <span class="string">"votes"</span> inte</span><br><span class="line">ger NOT NULL, <span class="string">"question_id"</span> integer NOT NULL);</span><br><span class="line">ALTER TABLE <span class="string">"polls_choice"</span> ADD CONSTRAINT <span class="string">"polls_choice_question_id_c5b4b260_fk_polls_question_id"</span> FOREIGN KEY (</span><br><span class="line"><span class="string">"question_id"</span>) REFERENCES <span class="string">"polls_question"</span> (<span class="string">"id"</span>) DEFERRABLE INITIALLY DEFERRED;</span><br><span class="line">CREATE INDEX <span class="string">"polls_choice_question_id_c5b4b260"</span> ON <span class="string">"polls_choice"</span> (<span class="string">"question_id"</span>);</span><br><span class="line">COMMIT;</span><br><span class="line"></span><br><span class="line">(Django-yj3Phk1A) (Django)  \beginmysite&gt; python manage.py migrate</span><br><span class="line">Operations to perform:</span><br><span class="line">  Apply all migrations: admin, auth, contenttypes, polls, sessions</span><br><span class="line">Running migrations:</span><br><span class="line">  Applying polls<span class="number">.0001</span>_initial... OK</span><br></pre></td></tr></table></figure>
+
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/Python/Flask/flask框架函数/" data-toggle="tooltip" data-placement="top" title="flask学习笔记">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/Python/Flask/flask模板/" data-toggle="tooltip" data-placement="top" title="flask学习笔记">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    <style>
+      span.toc-nav-number{
+        display: none
+      }
+    </style>
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django逻辑关系"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django逻辑关系</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-目录结果"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. 目录结果</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-逻辑关系"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. 逻辑关系</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-第一个视图"><span class="toc-nav-number">1.2.1.</span> <span class="toc-nav-text">(1) 第一个视图</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#代码块1"><span class="toc-nav-number">1.2.2.</span> <span class="toc-nav-text">代码块1</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#基本的请求和响应流程"><span class="toc-nav-number">1.2.3.</span> <span class="toc-nav-text">基本的请求和响应流程:</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-第一个模型"><span class="toc-nav-number">1.2.4.</span> <span class="toc-nav-text">(2) 第一个模型</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#代码块2"><span class="toc-nav-number">1.2.5.</span> <span class="toc-nav-text">代码块2</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#基本的请求和响应流程-1"><span class="toc-nav-number">1.2.6.</span> <span class="toc-nav-text">基本的请求和响应流程:</span></a></li></ol></li></ol></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Python" title="Python">Python</a>
+                        
+                          <a class="tag" href="/tags/#Django" title="Django">Django</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+
+                    
+                        <li><a href="https://docs.amazonaws.cn/index.html#lang/zh_cn" target="_blank">AWS</a></li>
+                    
+                        <li><a href="https://www.cnblogs.com/gunxiaoshi/" target="_blank">博客园</a></li>
+                    
+                        <li><a href="https://www.jianshu.com/u/abe128c859a6" target="_blank">简书</a></li>
+                    
+                        <li><a href="" target="_blank">DockOne</a></li>
+                    
+                        <li><a href="" target="_blank">阿里云栖社区 </a></li>
+                    
+                        <li><a href="http://blog.51cto.com/13291215" target="_blank">51CTO博客 </a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+                    <li>
+                        <a target="_blank" href="https://www.zhihu.com/people/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa  fa-stack-1x fa-inverse">知</i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank" href="https://www.facebook.com/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://www.linkedin.com/in/gunxiaoshi">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; gunxiaoshi 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    change by <a href="http://www.gunxiaoshi.me">gunxiaoshi</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://gunxiaoshi.me/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://gunxiaoshi.me/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

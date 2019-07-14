@@ -2,23 +2,23 @@
 <html lang="en">
 
 <!-- Head tag -->
-<head><meta name="generator" content="Hexo 3.8.0">
+<head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Every failure is leading towards success.">
-    <meta name="keyword" content="">
+    <meta name="keyword" content>
     <link rel="shortcut icon" href="/img/ironman-draw.png">
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          PythonCrawler - gunxiaoshi | Blog
+          Django学习笔记 - gunxiaoshi | Blog
         
     </title>
 
-    <link rel="canonical" href="http://gunxiaoshi.me/article/Python/Python-Crawler/PythonCrawler之requests/">
+    <link rel="canonical" href="http://gunxiaoshi.me/article/Python/Django/Django_Error汇总/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -69,14 +69,14 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/article_header/pythonCrawler.png')
+            background-image: url('/img/article_header/Flask-vs-Django.jpg')
             /*post*/
         
     }
     
 </style>
 
-<header class="intro-header">
+<header class="intro-header" >
     <!-- Signature -->
     <div id="signature">
         <div class="container">
@@ -88,11 +88,11 @@
                             
                               <a class="tag" href="/tags/#Python" title="Python">Python</a>
                             
-                              <a class="tag" href="/tags/#爬虫" title="爬虫">爬虫</a>
+                              <a class="tag" href="/tags/#Django" title="Django">Django</a>
                             
                         </div>
-                        <h1>PythonCrawler</h1>
-                        <h2 class="subheading">2. requests库的使用-requests库，BeautifulSoup库(bs4)，lxml</h2>
+                        <h1>Django学习笔记</h1>
+                        <h2 class="subheading">11. Django_Error汇总</h2>
                         <span class="meta">
                             Posted by gunxiaoshi on
                             2018-12-14
@@ -212,7 +212,42 @@
                 col-md-10 col-md-offset-1
                 post-container">
 
-                <h1 id="预创建的-Estimator"><a href="#预创建的-Estimator" class="headerlink" title="预创建的 Estimator"></a>预创建的 Estimator</h1><p><em><strong>本文档介绍了 TensorFlow 编程环境，并展示了如何在 TensorFlow 中解决鸢尾花分类问题。</strong></em></p>
+                <h1 id="Django的Error汇总"><a href="#Django的Error汇总" class="headerlink" title="Django的Error汇总"></a>Django的Error汇总</h1><p><strong>本文档主要记录了Django 2.2某项目运行在Windows10中遇到的一系列Error等。</strong></p>
+<h2 id="1-NameError-name-‘include’-is-not-defined"><a href="#1-NameError-name-‘include’-is-not-defined" class="headerlink" title="1. NameError: name ‘include’ is not defined"></a>1. NameError: name ‘include’ is not defined</h2><ul>
+<li>名称错误，没有定义‘include’</li>
+<li>排错思路：一般是没有导入相关方法。</li>
+<li>解决方法：在urls.py中导入from django.conf.urls import include</li>
+</ul>
+<h2 id="2-TypeError-index-missing-1-required-positional-argument-‘request’"><a href="#2-TypeError-index-missing-1-required-positional-argument-‘request’" class="headerlink" title="2. TypeError: index() missing 1 required positional argument: ‘request’"></a>2. TypeError: index() missing 1 required positional argument: ‘request’</h2><ul>
+<li>类型错误，index()缺少必要的位置参数’request’</li>
+<li>排错思路：</li>
+<li>解决方法：修改urlpatterns中的path：path(‘’, views.index, name=’index’)</li>
+</ul>
+<h2 id="3-django-core-exceptions-ImproperlyConfigured-‘postgresql-psycopg2’-isn’t-an-available-database-backend"><a href="#3-django-core-exceptions-ImproperlyConfigured-‘postgresql-psycopg2’-isn’t-an-available-database-backend" class="headerlink" title="3. django.core.exceptions.ImproperlyConfigured: ‘postgresql_psycopg2’ isn’t an available database backend."></a>3. django.core.exceptions.ImproperlyConfigured: ‘postgresql_psycopg2’ isn’t an available database backend.</h2><ul>
+<li>类型错误，配置不当</li>
+<li>排错思路：根据说明：Try using ‘django.db.backends.XXX’, where XXX is one of: ‘mysql’, ‘oracle’, ‘postgresql’, ‘sqlite3’</li>
+<li>解决方法：在setting.py中修改数据库中的配置’ENGINE’: ‘django.db.backends.postgresql_psycopg2’</li>
+</ul>
+<h2 id="4-django-core-exceptions-ImproperlyConfigured-Error-loading-psycopg2-module-No-module-named-‘psycopg2’"><a href="#4-django-core-exceptions-ImproperlyConfigured-Error-loading-psycopg2-module-No-module-named-‘psycopg2’" class="headerlink" title="4. django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 module: No module named ‘psycopg2’"></a>4. django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 module: No module named ‘psycopg2’</h2><ul>
+<li>类型错误，配置不当</li>
+<li>排错思路：缺少依赖包，在Python Console中测试import psycopg2</li>
+<li>解决方法：pipenv install psycopg2</li>
+</ul>
+<h2 id="5-ERROR-Pidfile-celerybeat-pid-already-exists"><a href="#5-ERROR-Pidfile-celerybeat-pid-already-exists" class="headerlink" title="5. ERROR: Pidfile (celerybeat.pid) already exists."></a>5. ERROR: Pidfile (celerybeat.pid) already exists.</h2><ul>
+<li>类型错误，celery beat v4.3.0 (rhubarb) 进程未按计划终止。</li>
+<li>排错思路：celery支持定时任务，设定好任务的执行时间，celery就会定时自动执行，这个定时任务模块叫celery beat。昨天项目测试时，启动过celery beat，最后关闭了PC机，第二天启动项目时提示Pidfile (celerybeat.pid) already exists。</li>
+<li>解决方法：删除项目下 celertbeat.pid文件。</li>
+</ul>
+<h2 id="6-ModuleNotFoundError-No-module-named-‘polls-apps-PollsConfigdjango’-‘polls-apps’-is-not-a-package"><a href="#6-ModuleNotFoundError-No-module-named-‘polls-apps-PollsConfigdjango’-‘polls-apps’-is-not-a-package" class="headerlink" title="6. ModuleNotFoundError: No module named ‘polls.apps.PollsConfigdjango’; ‘polls.apps’ is not a package"></a>6. ModuleNotFoundError: No module named ‘polls.apps.PollsConfigdjango’; ‘polls.apps’ is not a package</h2><ul>
+<li>类型错误，找不到模块。</li>
+<li>排错思路：这是将创建的新模型激活时，报出的错误。过程大致是：在apps/models.py中创建新模型——&gt;在mysite/setting.py的类 INSTALLED_APPS中添加点式路径。所以，一步步找错误即可。我发现No module named ‘polls.apps.PollsConfigdjango’最可能的原因是’polls.apps.PollsConfig在INSTALLED_APPS设置后缺少逗号！</li>
+<li>解决方法：’polls.apps.PollsConfig’后添加逗号。</li>
+</ul>
+<h2 id="7-redis-exceptions-ResponseError-Client-sent-AUTH-but-no-password-is-set"><a href="#7-redis-exceptions-ResponseError-Client-sent-AUTH-but-no-password-is-set" class="headerlink" title="7. redis.exceptions.ResponseError: Client sent AUTH, but no password is set"></a>7. redis.exceptions.ResponseError: Client sent AUTH, but no password is set</h2><ul>
+<li>类型错误：配置错误</li>
+<li>排错思路：本来已经在redis配置文件中设置了密码，但是仍然提示but no password is set，说明配置没有生效。然后就想到启动redis-server，可能没有指定到对应的配置文件中。 当然， 没有设置密码的，设置下密码就行。</li>
+<li>解决方法：找到redis-server 指定的配置文件/usr/local/redis-5.0.5/redis.conf或/etc/redis/6379.conf(新增，已经设置了开机启动)，然后指定到/etc/redis/6379.conf就行。</li>
+</ul>
 
                 
 
@@ -221,12 +256,12 @@
                 <ul class="pager">
                     
                         <li class="previous">
-                            <a href="/article/Python/Python-Crawler/PythonCrawler之urllib/" data-toggle="tooltip" data-placement="top" title="PythonCrawler">&larr; Previous Post</a>
+                            <a href="/article/Python/GIt/Git_error/" data-toggle="tooltip" data-placement="top" title="Git">&larr; Previous Post</a>
                         </li>
                     
                     
                         <li class="next">
-                            <a href="/article/Python/Flask/flask模板/" data-toggle="tooltip" data-placement="top" title="flask学习笔记">Next Post &rarr;</a>
+                            <a href="/article/Python/Flask/JSON_Error汇总 /" data-toggle="tooltip" data-placement="top" title="内置数据结构-文件处理">Next Post &rarr;</a>
                         </li>
                     
                 </ul>
@@ -267,7 +302,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#预创建的-Estimator"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">预创建的 Estimator</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#Django的Error汇总"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Django的Error汇总</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#1-NameError-name-‘include’-is-not-defined"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1. NameError: name ‘include’ is not defined</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#2-TypeError-index-missing-1-required-positional-argument-‘request’"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">2. TypeError: index() missing 1 required positional argument: ‘request’</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#3-django-core-exceptions-ImproperlyConfigured-‘postgresql-psycopg2’-isn’t-an-available-database-backend"><span class="toc-nav-number">1.3.</span> <span class="toc-nav-text">3. django.core.exceptions.ImproperlyConfigured: ‘postgresql_psycopg2’ isn’t an available database backend.</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#4-django-core-exceptions-ImproperlyConfigured-Error-loading-psycopg2-module-No-module-named-‘psycopg2’"><span class="toc-nav-number">1.4.</span> <span class="toc-nav-text">4. django.core.exceptions.ImproperlyConfigured: Error loading psycopg2 module: No module named ‘psycopg2’</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#5-ERROR-Pidfile-celerybeat-pid-already-exists"><span class="toc-nav-number">1.5.</span> <span class="toc-nav-text">5. ERROR: Pidfile (celerybeat.pid) already exists.</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#6-ModuleNotFoundError-No-module-named-‘polls-apps-PollsConfigdjango’-‘polls-apps’-is-not-a-package"><span class="toc-nav-number">1.6.</span> <span class="toc-nav-text">6. ModuleNotFoundError: No module named ‘polls.apps.PollsConfigdjango’; ‘polls.apps’ is not a package</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#7-redis-exceptions-ResponseError-Client-sent-AUTH-but-no-password-is-set"><span class="toc-nav-number">1.7.</span> <span class="toc-nav-text">7. redis.exceptions.ResponseError: Client sent AUTH, but no password is set</span></a></li></ol></li></ol>
         
         </div>
       </aside>
@@ -289,7 +324,7 @@
                        
                           <a class="tag" href="/tags/#Python" title="Python">Python</a>
                         
-                          <a class="tag" href="/tags/#爬虫" title="爬虫">爬虫</a>
+                          <a class="tag" href="/tags/#Django" title="Django">Django</a>
                         
                     </div>
                 </section>
@@ -399,7 +434,7 @@
 
                 
                     <li>
-                        <a target="_blank" href="https://github.com/gunxiaoshi">
+                        <a target="_blank"  href="https://github.com/gunxiaoshi">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-github fa-stack-1x fa-inverse"></i>
@@ -410,7 +445,7 @@
 
                 
                     <li>
-                        <a target="_blank" href="https://www.linkedin.com/in/gunxiaoshi">
+                        <a target="_blank"  href="https://www.linkedin.com/in/gunxiaoshi">
                             <span class="fa-stack fa-lg">
                                 <i class="fa fa-circle fa-stack-2x"></i>
                                 <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
@@ -428,7 +463,10 @@
                         <i class="fa fa-heart"></i>
                     </span> 
                     change by <a href="http://www.gunxiaoshi.me">gunxiaoshi</a> | 
-                    <iframe style="margin-left: 2px; margin-bottom:-5px;" frameborder="0" scrolling="0" width="91px" height="20px" src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true">
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true" >
                     </iframe>
                 </p>
             </div>
