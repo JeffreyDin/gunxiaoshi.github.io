@@ -92,7 +92,7 @@
                             
                         </div>
                         <h1>flask学习笔记</h1>
-                        <h2 class="subheading">4. Flask_装饰器汇总</h2>
+                        <h2 class="subheading">4. flask装饰器汇总</h2>
                         <span class="meta">
                             Posted by gunxiaoshi on
                             2018-12-14
@@ -142,14 +142,14 @@
 
                         
                         <li>
-                            <a href="/about/">About</a>
+                            <a href="/archive/">Archives</a>
                         </li>
                         
                     
 
                         
                         <li>
-                            <a href="/archive/">Archives</a>
+                            <a href="/about/">About</a>
                         </li>
                         
                     
@@ -229,16 +229,70 @@
 <td>代码块1</td>
 </tr>
 <tr>
+<td>flask_login</td>
+<td>@login_required</td>
+<td>检查登录装饰器。把 route() 装饰器放在最外面。</td>
+<td>代码块1</td>
+</tr>
+<tr>
+<td>flask_login</td>
+<td>@templated(‘index.html’)</td>
+<td>模板装饰器。工作原理是返回一个字典，这个字典包含从视图传递给模板的值，模板自动被渲染。把 route() 装饰器放在最外面。</td>
+<td>代码块1</td>
+</tr>
+<tr>
+<td>flask_login</td>
+<td>@app.endpoint(‘index’)</td>
+<td>端点装饰器。想要使用 werkzeug 路由系统，以便于获得更强的灵活性时，需要和 Rule 中定义的一样，把端点映射到视图函数。需要用的装饰器。</td>
+<td></td>
+</tr>
+<tr>
+<td>flask_login</td>
+<td>@wraps(f)</td>
+<td>缓存装饰器。</td>
+<td>代码块1</td>
+</tr>
+<tr>
 <td>flask框架</td>
 <td>@app.cli.command()</td>
 <td>通过该装饰器，将创建的函数注册成flask命令。传入函数可设置命令名称</td>
 <td>代码块1</td>
 </tr>
 <tr>
-<td>flask_login</td>
-<td>@login_required/@app.before_first_request/@before_request……</td>
+<td>flask框架</td>
+<td>@app.before_first_request/@before_request……</td>
 <td>对请求进行预处理或后处理，使用Flask提供的请求钩子(Hook)。他们用来注册在请求处理的不同阶段执行的回调函数(Callback)。请求钩子用装饰器实现</td>
-<td>代码块1</td>
+<td>检查登录装饰器。代码块1</td>
+</tr>
+<tr>
+<td>flask框架</td>
+<td>@app.context_processor</td>
+<td>自定义上下文。用来注册模板上下文处理函数，帮助完成统一传入变量的工作</td>
+<td></td>
+</tr>
+<tr>
+<td>flask框架</td>
+<td>@app.template_global()</td>
+<td>自定义全局函数。直接将函数注册为全区函数</td>
+<td></td>
+</tr>
+<tr>
+<td>flask框架</td>
+<td>@app.template_filter()</td>
+<td>自定义过滤器。注册自定义过滤器。</td>
+<td></td>
+</tr>
+<tr>
+<td>flask框架</td>
+<td>@app.template_test()</td>
+<td>自定义测试器。注册自定义测试器。传入函数对象和可选的自定义名称。</td>
+<td></td>
+</tr>
+<tr>
+<td>flask框架</td>
+<td>@app.errorhandler(404)</td>
+<td>自定义错误页面。</td>
+<td></td>
 </tr>
 </tbody></table>
 
